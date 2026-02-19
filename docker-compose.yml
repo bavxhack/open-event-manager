@@ -11,6 +11,7 @@ services:
     environment:
       APACHE_DOCUMENT_ROOT: public/
       PHP_EXTENSION_XDEBUG: 1
+      PHP_EXTENSION_GD: 1
       PHP_INI_MEMORY_LIMIT: 1G
       DATABASE_URL: mysql://app:app@db:3306/open_event_manager?serverVersion=8.0&charset=utf8mb4
       APP_ENV: dev
