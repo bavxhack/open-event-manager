@@ -7,34 +7,29 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=GroupRepository::class)
- * @ORM\Table(name="`group`")
- */
+    #[ORM\Entity(repositoryClass: GroupRepository::class)]
+    #[ORM\Table(name: "`group`")]
+
 class Group
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+        #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
+
     private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="eventGroups")
-     * @ORM\JoinColumn(nullable=false)
-     */
+        #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "eventGroups")]
+    #[ORM\JoinColumn(nullable: false)]
+
     private $leader;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Rooms::class, inversedBy="groups")
-     * @ORM\JoinColumn(nullable=false)
-     */
+        #[ORM\ManyToOne(targetEntity: Rooms::class, inversedBy: "groups")]
+    #[ORM\JoinColumn(nullable: false)]
+
     private $rooms;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="eventGroupsMemebers")
-     */
+        #[ORM\ManyToMany(targetEntity: User::class, inversedBy: "eventGroupsMemebers")]
+
     private $members;
 
     public function __construct()

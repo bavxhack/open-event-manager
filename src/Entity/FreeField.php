@@ -7,37 +7,31 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=FreeFieldRepository::class)
- */
+    #[ORM\Entity(repositoryClass: FreeFieldRepository::class)]
+
 class FreeField
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+        #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
+
     private $id;
 
-    /**
-     * @ORM\Column(type="text")
-     */
+        #[ORM\Column(type: "text")]
+
     private $label;
 
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
+        #[ORM\Column(type: "boolean", nullable: true)]
+
     private $required;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Rooms::class, inversedBy="freeFields",cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
-     */
+        #[ORM\ManyToOne(targetEntity: Rooms::class, inversedBy: "freeFields",cascade: ["persist"])]
+    #[ORM\JoinColumn(nullable: false)]
+
     private $Room;
 
-    /**
-     * @ORM\OneToMany(targetEntity=FreeFieldsUserAnswer::class, mappedBy="freeField")
-     */
+        #[ORM\OneToMany(targetEntity: FreeFieldsUserAnswer::class, mappedBy: "freeField")]
+
     private $yes;
 
     public function __construct()

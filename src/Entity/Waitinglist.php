@@ -5,33 +5,28 @@ namespace App\Entity;
 use App\Repository\WaitinglistRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=WaitinglistRepository::class)
- */
+    #[ORM\Entity(repositoryClass: WaitinglistRepository::class)]
+
 class Waitinglist
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+        #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
+
     private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="waitinglists")
-     * @ORM\JoinColumn(nullable=false)
-     */
+        #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "waitinglists")]
+    #[ORM\JoinColumn(nullable: false)]
+
     private $user;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Rooms::class, inversedBy="waitinglists")
-     * @ORM\JoinColumn(nullable=false)
-     */
+        #[ORM\ManyToOne(targetEntity: Rooms::class, inversedBy: "waitinglists")]
+    #[ORM\JoinColumn(nullable: false)]
+
     private $room;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+        #[ORM\Column(type: "datetime")]
+
     private $createdAt;
 
     public function getId(): ?int

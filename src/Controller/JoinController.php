@@ -13,7 +13,7 @@ use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -26,10 +26,9 @@ class JoinController extends AbstractController
     {
         $this->parameterBag = $parameterBag;
     }
-    /**
-     * @Route("/join/{slug}", name= "join_index")
-     * @Route("/join", name= "join_index_no_slug")
-     */
+        #[Route("/join/{slug}", name: "join_index")]
+    #[Route("/join", name: "join_index_no_slug")]
+
     public function index($slug = null, PexelService $pexelService, Request $request, TranslatorInterface $translator, RoomService $roomService, HttpClientInterface $httpClient)
     {
         $data = array();

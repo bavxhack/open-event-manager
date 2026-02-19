@@ -22,8 +22,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\Validator\Constraints\Json;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use function Symfony\Component\String\s;
@@ -39,10 +39,9 @@ class ShareLinkController extends AbstractController
         $this->logger = $logger;
 
     }
-    /**
-     * @Route("/room/share/link/{id}", name= "share_link")
-     * @ParamConverter("rooms")
-     */
+        #[Route("/room/share/link/{id}", name: "share_link")]
+    #[MapEntity]
+
 public function index(Rooms $rooms): Response
     {
         if (!$rooms || !$rooms->getModerator() == $this->getUser() || $rooms->getPublic() != true) {
@@ -51,10 +50,9 @@ public function index(Rooms $rooms): Response
         return $this->render('share_link/__shareLinkModal.html.twig', array('room' => $rooms));
 
     }
-    /**
-     * @Route("/room/share/link/accetwaitinglist/{id}", name= "accept_waitingList")
-     * @ParamConverter("waitinglist")
-     */
+        #[Route("/room/share/link/accetwaitinglist/{id}", name: "accept_waitingList")]
+    #[MapEntity]
+
 public function waitinglistAccept(Waitinglist $waitinglist, SubcriptionService $subcriptionService): Response
     {
         if ($waitinglist->getRoom()->getModerator() == $this->getUser()) {
@@ -65,10 +63,9 @@ public function waitinglistAccept(Waitinglist $waitinglist, SubcriptionService $
         }
         return new JsonResponse(array('error' => true));
     }
-    /**
-     * @Route("/room/share/link/deniewaitinglist/{id}", name= "denie_waitingList")
-     * @ParamConverter("waitinglist")
-     */
+        #[Route("/room/share/link/deniewaitinglist/{id}", name: "denie_waitingList")]
+    #[MapEntity]
+
 public function waitinglistDenie(Waitinglist $waitinglist, SubcriptionService $subcriptionService, UserService $userService, TranslatorInterface $translator): Response
     {
 
@@ -112,9 +109,8 @@ public function waitinglistDenie(Waitinglist $waitinglist, SubcriptionService $s
         return new JsonResponse(array('error' => true));
 
     }
-    /**
-     * @Route("/subscribe/self/{uid}", name= "public_subscribe_participant")
-     */
+        #[Route("/subscribe/self/{uid}", name: "public_subscribe_participant")]
+
     public function participants($uid, Request $request, SubcriptionService $subcriptionService, TranslatorInterface $translator, PexelService $pexelService): Response
     {
         $rooms = new Rooms();
@@ -226,9 +222,8 @@ public function waitinglistDenie(Waitinglist $waitinglist, SubcriptionService $s
             'color' => $color,
         ]);
     }
-    /**
-     * @Route("/subscribe/optIn/{uid}", name= "public_subscribe_doupleOptIn")
-     */
+        #[Route("/subscribe/optIn/{uid}", name: "public_subscribe_doupleOptIn")]
+
     public function doupleoptin($uid, SubcriptionService $subcriptionService, TranslatorInterface $translator, UserService $userService, PexelService $pexelService): Response
     {
         $subscriber = $this->em->getRepository(Subscriber::class)->findOneBy(array('uid' => $uid));

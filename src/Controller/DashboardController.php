@@ -17,7 +17,7 @@ use App\Service\ServerUserManagment;
 use Firebase\JWT\JWT;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use function Doctrine\ORM\QueryBuilder;
 
@@ -29,7 +29,7 @@ class DashboardController extends AbstractController
 {
 
     /**
-     * @Route("/", name= "index")
+    #[Route("/", name: "index")]
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
@@ -56,7 +56,7 @@ class DashboardController extends AbstractController
 
 
     /**
-     * @Route("/room/dashboard", name= "dashboard")
+    #[Route("/room/dashboard", name: "dashboard")]
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */

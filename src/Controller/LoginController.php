@@ -10,22 +10,20 @@ use Stevenmaguire\OAuth2\Client\Provider\Keycloak;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class LoginController extends AbstractController
 {
-    /**
-     * @Route("/login/auth0_login", name= "login_auth0")
-     */
+        #[Route("/login/auth0_login", name: "login_auth0")]
+
     public function index(ClientRegistry $clientRegistry): Response
     {
       return $clientRegistry->getClient('auth0_main')->redirect(['user']);
     }
-    /**
-     * @Route("/login/auth0_login/check", name= "connect_auth0_check")
-     */
+        #[Route("/login/auth0_login/check", name: "connect_auth0_check")]
+
     public function check(ClientRegistry $clientRegistry, Request $request)
     {
         // ** if you want to *authenticate* the user, then
@@ -49,9 +47,8 @@ class LoginController extends AbstractController
             die;
         }
     }
-    /**
-     * @Route("/room/logout_keycloak", name= "logout_keycloak")
-     */
+        #[Route("/room/logout_keycloak", name: "logout_keycloak")]
+
     public function logout(
         ClientRegistry $clientRegistry,
         Request        $request

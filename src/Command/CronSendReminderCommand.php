@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Service\ReminderService;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -10,9 +11,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[AsCommand(name: 'app:cron:sendReminder', description: 'Send a reminder to all users which are in a room in the next 10 min')]
 class CronSendReminderCommand extends Command
 {
-    protected static $defaultName = 'app:cron:sendReminder';
     private $reminderService;
     public function __construct( ReminderService $reminderService, string $name = null)
     {

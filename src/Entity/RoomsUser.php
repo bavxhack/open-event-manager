@@ -5,44 +5,37 @@ namespace App\Entity;
 use App\Repository\RoomsUserRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=RoomsUserRepository::class )
- * @ORM\Table(name="userRoomsAttributes")
- */
+    #[ORM\Entity(repositoryClass: RoomsUserRepository::class )]
+    #[ORM\Table(name: "userRoomsAttributes")]
+
 class RoomsUser
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+        #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
+
     private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="roomsNew")
-     * @ORM\JoinColumn(nullable=false)
-     */
+        #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "roomsNew")]
+    #[ORM\JoinColumn(nullable: false)]
+
     private $user;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Rooms::class, inversedBy="userAttributes")
-     * @ORM\JoinColumn(nullable=false)
-     */
+        #[ORM\ManyToOne(targetEntity: Rooms::class, inversedBy: "userAttributes")]
+    #[ORM\JoinColumn(nullable: false)]
+
     private $room;
 
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
+        #[ORM\Column(type: "boolean", nullable: true)]
+
     private $shareDisplay;
 
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
+        #[ORM\Column(type: "boolean", nullable: true)]
+
     private $moderator;
 
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
+        #[ORM\Column(type: "boolean", nullable: true)]
+
     private $privateMessage;
 
 

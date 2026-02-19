@@ -10,160 +10,128 @@ use App\Entity\UserBase as BaseUser;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\UserRepository;
 
-/**
- * @ORM\Table(name="fos_user")
- * @ORM\Entity(repositoryClass=UserRepository::class)
- */
+    #[ORM\Table(name: "fos_user")]
+    #[ORM\Entity(repositoryClass: UserRepository::class)]
+
 class User extends BaseUser
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+        #[ORM\Id]
+    #[ORM\Column(type: "integer")]
+    #[ORM\GeneratedValue(strategy: "AUTO")]
+
     protected $id;
 
-    /**
-     * @Assert\NotBlank(message="fos_user.password.blank", groups={"Registration", "ResetPassword", "ChangePassword"})
-     * @Assert\Length(min=8,
-     *     minMessage="fos_user.password.short",
-     *     groups={"Registration", "Profile", "ResetPassword", "ChangePassword"})
-     */
+        #[Assert\NotBlank(message: "fos_user.password.blank", groups: ["Registration", "ResetPassword", "ChangePassword"])]
+    #[Assert\Length(min: 8, minMessage: "fos_user.password.short", groups: ["Registration", "Profile", "ResetPassword", "ChangePassword"])]
+
     protected $plainPassword;
 
-    /**
-     * @ORM\Column(type="text",nullable=true)
-     */
+        #[ORM\Column(type: "text",nullable: true)]
+
     private $email;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+        #[ORM\Column(type: "text", nullable: true)]
+
     private $keycloakId;
 
-    /**
-     * @ORM\Column(type="datetime",nullable=true)
-     */
+        #[ORM\Column(type: "datetime",nullable: true)]
+
     private $createdAt;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+        #[ORM\Column(type: "text", nullable: true)]
+
     private $username;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
+        #[ORM\Column(type: "datetime", nullable: true)]
+
     private $lastLogin;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+        #[ORM\Column(type: "text", nullable: true)]
+
     private $firstName;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+        #[ORM\Column(type: "text", nullable: true)]
+
     private $lastName;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+        #[ORM\Column(type: "text", nullable: true)]
+
     private $registerId;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=Rooms::class, mappedBy="user")
-     */
+        #[ORM\ManyToMany(targetEntity: Rooms::class, mappedBy: "user")]
+
     private $rooms;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=Standort::class, mappedBy="user")
-     */
+        #[ORM\ManyToMany(targetEntity: Standort::class, mappedBy: "user")]
+
     private $standort;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Rooms::class, mappedBy="moderator")
-     */
+        #[ORM\OneToMany(targetEntity: Rooms::class, mappedBy: "moderator")]
+
     private $roomModerator;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Standort::class, mappedBy="administrator")
-     */
+        #[ORM\OneToMany(targetEntity: Standort::class, mappedBy: "administrator")]
+
     private $standortAdmins;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="addressbookInverse")
-     */
+        #[ORM\ManyToMany(targetEntity: User::class, inversedBy: "addressbookInverse")]
+
     private $addressbook;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="addressbook")
-     */
+        #[ORM\ManyToMany(targetEntity: User::class, mappedBy: "addressbook")]
+
     private $addressbookInverse;
 
-    /**
-     * @ORM\OneToMany(targetEntity=RoomsUser::class, mappedBy="user")
-     */
+        #[ORM\OneToMany(targetEntity: RoomsUser::class, mappedBy: "user")]
+
     private $roomsAttributes;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Subscriber::class, mappedBy="user")
-     */
+        #[ORM\OneToMany(targetEntity: Subscriber::class, mappedBy: "user")]
+
     private $subscribers;
 
-    /**
-     * @ORM\Column(type="array", nullable=true,name="keycloakGroup")
-     */
+        #[ORM\Column(type: "array", nullable: true,name: "keycloakGroup")]
+
     private $groups = [];
 
-    /**
-     * @ORM\OneToMany(targetEntity=SchedulingTimeUser::class, mappedBy="user")
-     */
+        #[ORM\OneToMany(targetEntity: SchedulingTimeUser::class, mappedBy: "user")]
+
     private $schedulingTimeUsers;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+        #[ORM\Column(type: "text", nullable: true)]
+
     private $uid;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Waitinglist::class, mappedBy="user")
-     */
+        #[ORM\OneToMany(targetEntity: Waitinglist::class, mappedBy: "user")]
+
     private $waitinglists;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+        #[ORM\Column(type: "text", nullable: true)]
+
     private $phone;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=Rooms::class, mappedBy="storno")
-     */
+        #[ORM\ManyToMany(targetEntity: Rooms::class, mappedBy: "storno")]
+
     private $roomsStorno;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Group::class, mappedBy="leader")
-     */
+        #[ORM\OneToMany(targetEntity: Group::class, mappedBy: "leader")]
+
     private $eventGroups;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=Group::class, mappedBy="members")
-     */
+        #[ORM\ManyToMany(targetEntity: Group::class, mappedBy: "members")]
+
     private $eventGroupsMemebers;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+        #[ORM\Column(type: "text", nullable: true)]
+
     private $address;
 
-    /**
-     * @ORM\OneToMany(targetEntity=FreeFieldsUserAnswer::class, mappedBy="user")
-     */
+        #[ORM\OneToMany(targetEntity: FreeFieldsUserAnswer::class, mappedBy: "user")]
+
     private $freeFieldsUserAnswers;
 
-    /**
-     * @ORM\OneToMany(targetEntity=UserEventCreated::class, mappedBy="user", orphanRemoval=true)
-     */
+        #[ORM\OneToMany(targetEntity: UserEventCreated::class, mappedBy: "user", orphanRemoval: true)]
+
     private $userEventCreateds;
 
 

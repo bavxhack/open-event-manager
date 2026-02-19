@@ -4,6 +4,7 @@ namespace App\Command;
 
 use App\Entity\Rooms;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -11,9 +12,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[AsCommand(name: 'app:removeGroupWithNoLeader')]
 class RemoveGroupWithNoLeaderCommand extends Command
 {
-    protected static $defaultName = 'app:removeGroupWithNoLeader';
     protected static $defaultDescription = 'Removes all Users which are members of a group thats leader is not user of the room anymore';
     private $em;
     public function __construct(EntityManagerInterface $entityManager, string $name = null )
