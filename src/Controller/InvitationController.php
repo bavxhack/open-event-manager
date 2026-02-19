@@ -4,18 +4,17 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Service\InviteService;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 
 class InvitationController extends AbstractController
 {
-    /**
-     * @Route("/login/invitationAccept/{id}", name="invitation_accept")
-     * @ParamConverter("user", class="App\Entity\User",options={"mapping": {"id": "registerId"}})
-     */
+        #[Route("/login/invitationAccept/{id}", name: "invitation_accept")]
+    #[MapEntity(expr: "repository.findOneBy({'registerId': id})")]
+
     public function index(InviteService $inviteService, User $user, Request $request): Response
     {
 

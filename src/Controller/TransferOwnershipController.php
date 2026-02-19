@@ -12,7 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class TransferOwnershipController extends AbstractController
 {
@@ -31,9 +31,8 @@ class TransferOwnershipController extends AbstractController
         $this->transferOwnerShipService = $transferOwnerShipService;
     }
 
-    /**
-     * @Route("/transfer/ownership", name="transfer_ownership")
-     */
+        #[Route("/transfer/ownership", name: "transfer_ownership")]
+
     public function index(Request $request): Response
     {
         $newOwner = $this->userRepository->find($request->get('new_user'));

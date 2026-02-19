@@ -9,19 +9,18 @@ use App\Service\RoomService;
 use App\Service\ServerUserManagment;
 use App\Service\UserService;
 use phpDocumentor\Reflection\Types\This;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class AdHocMeetingController extends AbstractController
 {
-    /**
-     * @Route("/room/adhoc/meeting/{userId}/{serverId}", name="add_hoc_meeting")
-     * @ParamConverter("user", class="App\Entity\User",options={"mapping": {"userId": "id"}})
-     * @ParamConverter("standort", class="App\Entity\Standort",options={"mapping": {"serverId": "id"}})
-     */
+        #[Route("/room/adhoc/meeting/{userId}/{serverId}", name: "add_hoc_meeting")]
+    #[MapEntity(expr: "repository.findOneBy({'id': userId})")]
+    #[MapEntity(expr: "repository.findOneBy({'id': serverId})")]
+
     public function index(User $user, Standort $standort, UserService $userService, TranslatorInterface $translator, ServerUserManagment $serverUserManagment): Response
     {
 

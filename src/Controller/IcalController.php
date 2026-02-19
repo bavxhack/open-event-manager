@@ -10,19 +10,18 @@ use App\Service\UserService;
 use Eluceo\iCal\Component\Calendar;
 use Eluceo\iCal\Component\Event;
 use Eluceo\iCal\Property\Event\Organizer;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Contracts\Cache\ItemInterface;
 
 class IcalController extends AbstractController
 {
-    /**
-     * @Route("/ical/{id}", name="ical")
-     * @ParamConverter("user", class="App\Entity\User",options={"mapping": {"id": "uid"}})
-     */
+        #[Route("/ical/{id}", name: "ical")]
+    #[MapEntity(expr: "repository.findOneBy({'uid': id})")]
+
     public function index(User $user, UserService $userService,LicenseService $licenseService, IcalService $icalService): Response
     {
 

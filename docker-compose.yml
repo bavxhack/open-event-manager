@@ -1,24 +1,54 @@
-version: '3.7'
+version: '3.9'
 
 services:
-
   traefik:
-    image: traefik:1.7
-    command: --docker --docker.exposedbydefault=false
+    image: traefik:2.11
+    command:
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --entrypoints.web.address=:80
     ports:
       - "80:80"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/run/docker.sock:/var/run/docker.sock:ro
 
   app:
-    image: thecodingmachine/php:7.3-v2-apache-node10
+    image: thecodingmachine/php:8.2-v4-apache
+    depends_on:
+      db:
+        condition: service_healthy
     labels:
       - traefik.enable=true
-      - traefik.backend=odc
-      - traefik.frontend.rule=Host:odc.localhost
+      - traefik.http.routers.odc.rule=Host(`odc.localhost`)
+      - traefik.http.routers.odc.entrypoints=web
+      - traefik.http.services.odc.loadbalancer.server.port=80
     environment:
-      APACHE_DOCUMENT_ROOT: "public/"
-      PHP_EXTENSION_XDEBUG: "1"
-      PHP_INI_MEMORY_LIMIT: "1G"
+      APACHE_DOCUMENT_ROOT: public/
+      PHP_EXTENSION_XDEBUG: 1
+      PHP_INI_MEMORY_LIMIT: 1G
+      DATABASE_URL: mysql://app:app@db:3306/open_event_manager?serverVersion=8.0&charset=utf8mb4
+      APP_ENV: dev
+      APP_DEBUG: 1
     volumes:
       - .:/var/www/html:rw
+
+  db:
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_DATABASE: open_event_manager
+      MYSQL_USER: app
+      MYSQL_PASSWORD: app
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  db_data:

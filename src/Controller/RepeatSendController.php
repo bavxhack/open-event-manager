@@ -10,14 +10,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RepeatSendController extends AbstractController
 {
-    /**
-     * @Route("/rooms/repeat/sendAll", name="room_repeat_send")
-     */
+        #[Route("/rooms/repeat/sendAll", name: "room_repeat_send")]
+
     public function index(Request $request, UserService $userService, TranslatorInterface $translator): Response
     {
         $room = $this->getDoctrine()->getRepository(Rooms::class)->find($request->get('id'));
@@ -31,9 +30,8 @@ class RepeatSendController extends AbstractController
 
     }
 
-    /**
-     * @Route("/rooms/repeat/sendUser", name="room_repeat_user")
-     */
+        #[Route("/rooms/repeat/sendUser", name: "room_repeat_user")]
+
     public function toOneUser(Request $request, UserService $userService, TranslatorInterface $translator): Response
     {
         $room = $this->getDoctrine()->getRepository(Rooms::class)->find($request->get('id'));

@@ -11,19 +11,17 @@ use App\Service\InviteService;
 use App\Service\LicenseService;
 use App\Service\UserService;
 use PHPUnit\Util\Json;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 
 class APIUserController extends AbstractController
 {
-    /**
-     * @Route("/api/v1/getAllEntries", name="apiV1_getAllEntries")
-     */
+        #[Route("/api/v1/getAllEntries", name: "apiV1_getAllEntries")]
+
     public function index(): Response
     {
         $rooms = $this->getDoctrine()->getRepository(Rooms::class)->findRoomsForUser($this->getUser());
@@ -42,9 +40,8 @@ class APIUserController extends AbstractController
         return $response;
     }
 
-    /**
-     * @Route("/api/v1/info/{uidReal}", name="apiV1_roomGetUser",methods={"GET"})
-     */
+        #[Route("/api/v1/info/[uidReal]", name: "apiV1_roomGetUser",methods: ["GET"])]
+
     public function getRoomInformations(Request $request, $uidReal, RoomService $roomService): Response
     {
         $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uidReal' => $uidReal));
@@ -53,9 +50,8 @@ class APIUserController extends AbstractController
         return $response;
     }
 
-    /**
-     * @Route("/api/v1/user", name="apiV1_roomAddUser", methods={"POST"})
-     */
+        #[Route("/api/v1/user", name: "apiV1_roomAddUser", methods: ["POST"])]
+
     public function addUserToRoom(LicenseService $licenseService, Request $request, InviteService $inviteService, UserService $userService, RoomService $roomService): Response
     {
 
@@ -70,9 +66,8 @@ class APIUserController extends AbstractController
         return new JsonResponse($roomService->addUserToRoom($room, $email));
     }
 
-    /**
-     * @Route("/api/v1/user", name="apiV1_roomDeleteUser", methods={"DELETE"})
-     */
+        #[Route("/api/v1/user", name: "apiV1_roomDeleteUser", methods: ["DELETE"])]
+
     public function removeUserFromRoom(LicenseService $licenseService, Request $request, InviteService $inviteService, RoomService $roomService): Response
     {
 
