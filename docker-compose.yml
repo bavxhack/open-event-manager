@@ -21,7 +21,7 @@ services:
     command: >
       sh -lc '
       if [ ! -f /var/www/html/vendor/autoload.php ]; then
-        composer install --working-dir=/var/www/html --no-interaction --prefer-dist;
+        composer install --working-dir=/var/www/html --no-interaction --prefer-dist           || composer update --working-dir=/var/www/html --with-all-dependencies --no-interaction --prefer-dist;
       fi;
       apache2-foreground
       '
