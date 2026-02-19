@@ -1,27 +1,13 @@
 version: '3.9'
 
 services:
-  traefik:
-    image: traefik:2.11
-    command:
-      - --providers.docker=true
-      - --providers.docker.exposedbydefault=false
-      - --entrypoints.web.address=:80
-    ports:
-      - "80:80"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-
   app:
     image: thecodingmachine/php:8.2-v4-apache
     depends_on:
       db:
         condition: service_healthy
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.odc.rule=Host(`odc.localhost`)
-      - traefik.http.routers.odc.entrypoints=web
-      - traefik.http.services.odc.loadbalancer.server.port=80
+    ports:
+      - "8080:80"
     environment:
       APACHE_DOCUMENT_ROOT: public/
       PHP_EXTENSION_XDEBUG: 1
