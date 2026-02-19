@@ -17,6 +17,14 @@ services:
       APP_DEBUG: 1
     volumes:
       - .:/var/www/html:rw
+      - composer_cache:/tmp/composer
+    command: >
+      sh -lc '
+      if [ ! -f /var/www/html/vendor/autoload.php ]; then
+        composer install --working-dir=/var/www/html --no-interaction --prefer-dist;
+      fi;
+      apache2-foreground
+      '
 
   db:
     image: mysql:8.0
@@ -38,3 +46,4 @@ services:
 
 volumes:
   db_data:
+  composer_cache:
