@@ -18,6 +18,9 @@ services:
     volumes:
       - .:/var/www/html:rw
       - composer_cache:/tmp/composer
+    command: >
+
+          composer install --working-dir=/var/www/html --no-interaction --prefer-dist
 
 
   db:
