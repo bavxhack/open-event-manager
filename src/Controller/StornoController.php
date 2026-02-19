@@ -10,13 +10,14 @@ use App\Service\UserService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class StornoController extends AbstractController
 {
-        #[Route("/public/storno/start/{uidRoom}/{uidUser}", name: "storno_index")]
-
+    /**
+     * @Route("/public/storno/start/{uidRoom}/{uidUser}", name= "storno_index")
+     */
     public function index($uidRoom, $uidUser): Response
     {
         $rooms = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uid'=>$uidRoom));
@@ -34,8 +35,9 @@ class StornoController extends AbstractController
             'room'=>$rooms,
         ]);
     }
-        #[Route("/public/storno/accept/{uidRoom}/{uidUser}", name: "storno_accept")]
-
+    /**
+     * @Route("/public/storno/accept/{uidRoom}/{uidUser}", name= "storno_accept")
+     */
     public function accept($uidRoom, $uidUser, UserService $userService,TranslatorInterface $translator, NotificationService $notificationService): Response
     {
         $rooms = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uid'=>$uidRoom));

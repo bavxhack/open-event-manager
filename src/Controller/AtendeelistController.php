@@ -8,12 +8,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 
 class AtendeelistController extends AbstractController
 {
-        #[Route("/room/atendeelist/download/excel/{uid}", name: "atendeelist_download_excel")]
-
+    /**
+     * @Route("/room/atendeelist/download/excel/{uid}", name= "atendeelist_download_excel")
+     */
     public function index($uid, TeilnehmerExcelService $teilnehmerExcelService): Response
     {
 

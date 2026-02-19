@@ -22,8 +22,8 @@ use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RoomController extends AbstractController
@@ -36,9 +36,9 @@ class RoomController extends AbstractController
         $this->translator = $translator;
         $this->logger = $logger;
     }
-
-        #[Route("/room/new", name: "room_new")]
-
+    /**
+     * @Route("/room/new", name= "room_new")
+     */
     public function newRoom(Request $request, UserService $userService, TranslatorInterface $translator, ServerUserManagment $serverUserManagment, UserEventCreateService $userEventCreateService)
     {
         $roomOld = null;
@@ -143,9 +143,9 @@ class RoomController extends AbstractController
         }
         return $this->render('base/__newRoomModal.html.twig', array('form' => $form->createView(), 'title' => $title));
     }
-
-        #[Route("/room/add-user", name: "room_add_user")]
-
+    /**
+     * @Route("/room/add-user", name= "room_add_user")
+     */
     public function roomAddUser(Request $request, InviteService $inviteService, UserService $userService)
     {
         $newMember = array();
@@ -188,10 +188,10 @@ class RoomController extends AbstractController
 
         return $this->render('room/attendeeModal.twig', array('form' => $form->createView(), 'title' => $title, 'room' => $room));
     }
-
-        #[Route("/room/join/{t}/{room}", name: "room_join")]
-    #[MapEntity(mapping: ['room' => 'id'])]
-
+    /**
+     * @Route("/room/join/{t}/{room}", name= "room_join")
+     * @ParamConverter("room", options={"mapping"={"room"="id"}})
+     */
     public
     function joinRoom(RoomService $roomService, Rooms $room, $t)
     {
@@ -203,9 +203,9 @@ class RoomController extends AbstractController
 
         return $this->redirectToRoute('dashboard', ['join_room' => $room->getId(), 'type' => $t]);
     }
-
-        #[Route("/room/user/remove", name: "room_user_remove")]
-
+    /**
+     * @Route("/room/user/remove", name= "room_user_remove")
+     */
     public
     function roomUserRemove(Request $request, UserService $userService)
     {
@@ -252,9 +252,9 @@ class RoomController extends AbstractController
 
         return $this->redirectToRoute('dashboard', ['snack' => $snack]);
     }
-
-        #[Route("/room/remove", name: "room_remove")]
-
+    /**
+     * @Route("/room/remove", name= "room_remove")
+     */
     public
     function roomRemove(Request $request, UserService $userService)
     {
@@ -278,9 +278,9 @@ class RoomController extends AbstractController
         }
         return $this->redirectToRoute('dashboard', ['snack' => $snack]);
     }
-
-        #[Route("/room/clone", name: "room_clone")]
-
+    /**
+     * @Route("/room/clone", name= "room_clone")
+     */
     public
     function roomClone(Request $request, UserService $userService, TranslatorInterface $translator, ServerUserManagment $serverUserManagment)
     {

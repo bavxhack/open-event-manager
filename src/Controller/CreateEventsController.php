@@ -9,13 +9,14 @@ use App\Service\UserService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CreateEventsController extends AbstractController
 {
-        #[Route("/room/create/events", name: "create_events")]
-
+    /**
+     * @Route("/room/create/events", name= "create_events")
+     */
     public function index(Request $request, TranslatorInterface $translator, CloneService $cloneService): Response
     {
         $roomOld = $this->getDoctrine()->getRepository(Rooms::class)->find($request->get('roomId'));

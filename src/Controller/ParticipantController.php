@@ -7,14 +7,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use function GuzzleHttp\Psr7\str;
 
 class ParticipantController extends AbstractController
 {
-        #[Route("/room/participant", name: "search_participant")]
-
+    /**
+     * @Route("/room/participant", name= "search_participant")
+     */
     public function index(Request $request, TranslatorInterface $translator): Response
     {
        $string = $request->get('search');

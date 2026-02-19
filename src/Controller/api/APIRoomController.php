@@ -16,13 +16,14 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use function GuzzleHttp\default_user_agent;
 
 class APIRoomController extends AbstractController
 {
-        #[Route("/api/v1/room", name: "api_room_create",methods: ["POST"])]
-
+    /**
+     * @Route("/api/v1/room", name= "api_room_create",methods= {"POST"})
+     */
     public function index(LicenseService $licenseService, Request $request, ParameterBagInterface $parameterBag, RoomService $roomService, KeycloakService $keycloakService): Response
     {
 
@@ -58,9 +59,9 @@ class APIRoomController extends AbstractController
         $room = $roomService->createRoom($user, $server, $start, $duration, $name);
         return new JsonResponse(array('error' => false, 'uid' => $room->getUidReal(), 'text' => 'Meeting erfolgreich angelegt'));
     }
-
-        #[Route("/api/v1/room", name: "apiV1_roomDelete", methods: ["DELETE"])]
-
+    /**
+     * @Route("/api/v1/room", name= "apiV1_roomDelete", methods= {"DELETE"})
+     */
     public function removeRoom(Request $request, ParameterBagInterface $parameterBag, RoomService $roomService): Response
     {
 
@@ -78,9 +79,9 @@ class APIRoomController extends AbstractController
         $roomService->deleteRoom($room);
         return new JsonResponse(array('error' => false, 'text' => 'Erfolgreich gelöscht'));
     }
-
-        #[Route("/api/v1/room", name: "api_room_edit",methods: ["PUT"])]
-
+    /**
+     * @Route("/api/v1/room", name= "api_room_edit",methods= {"PUT"})
+     */
     public function editRoom(LicenseService  $licenseService, Request $request, ParameterBagInterface $parameterBag, RoomService $roomService): Response
     {
 
@@ -108,9 +109,9 @@ class APIRoomController extends AbstractController
         $room = $roomService->editRoom($room, $server, $start, $duration, $name);
         return new JsonResponse(array('error' => false, 'uid' => $room->getUidReal(), 'text' => 'Meeting erfolgreich geändert'));
     }
-
-        #[Route("/api/v1/serverInfo", name: "api_user_get_server",methods: ["GET"])]
-
+    /**
+     * @Route("/api/v1/serverInfo", name= "api_user_get_server",methods= {"GET"})
+     */
     public function getServers(ServerUserManagment  $serverUserManagment, Request $request, ParameterBagInterface $parameterBag, RoomService $roomService, KeycloakService $keycloakService): Response
     {
 
