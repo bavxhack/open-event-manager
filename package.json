@@ -9,10 +9,10 @@
     "license": "UNLICENSED",
     "private": true,
     "scripts": {
-        "dev-server": "encore dev-server",
-        "dev": "encore dev",
-        "watch": "encore dev --watch",
-        "build": "encore production --progress"
+        "dev-server": "set NODE_OPTIONS=--openssl-legacy-provider && encore dev-server",
+        "dev": "set NODE_OPTIONS=--openssl-legacy-provider && encore dev",
+        "watch": "set NODE_OPTIONS=--openssl-legacy-provider && encore dev --watch",
+        "build": "set NODE_OPTIONS=--openssl-legacy-provider && encore production --progress"
     },
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.15.2",

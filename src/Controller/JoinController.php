@@ -29,7 +29,7 @@ class JoinController extends AbstractController
         #[Route("/join/{slug}", name: "join_index")]
     #[Route("/join", name: "join_index_no_slug")]
 
-    public function index($slug = null, PexelService $pexelService, Request $request, TranslatorInterface $translator, RoomService $roomService, HttpClientInterface $httpClient)
+    public function index(PexelService $pexelService, Request $request, TranslatorInterface $translator, RoomService $roomService, $slug = null )
     {
         $data = array();
         $standort = $this->getDoctrine()->getRepository(Standort::class)->findOneBy(['slug' => $slug]);

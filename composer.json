@@ -5,14 +5,13 @@
     "php": "^8.2",
     "ext-ctype": "*",
     "ext-iconv": "*",
-    "doctrine/annotations": "^2.0",
     "doctrine/doctrine-bundle": "^2.13",
     "doctrine/doctrine-migrations-bundle": "^3.4",
     "doctrine/orm": "^3.3",
     "eluceo/ical": "0.16.*",
-    "endroid/qr-code-bundle": "^4.0",
+    "endroid/qr-code-bundle": "^6.0",
     "erusev/parsedown": "^1.7",
-    "jms/i18n-routing-bundle": "dev-master",
+    "h2invent/i18n-routing-bundle": "^3.2",
     "knpuniversity/oauth2-client-bundle": "^2.5",
     "phpdocumentor/reflection-docblock": "^5.3",
     "phpoffice/phpspreadsheet": "^1.17",
@@ -33,7 +32,6 @@
     "symfony/process": "7.4.*",
     "symfony/property-access": "7.4.*",
     "symfony/property-info": "7.4.*",
-    "symfony/proxy-manager-bridge": "7.4.*",
     "symfony/security-bundle": "7.4.*",
     "symfony/serializer": "7.4.*",
     "symfony/translation": "7.4.*",
@@ -50,7 +48,7 @@
     "twig/twig": "^3.0"
   },
   "require-dev": {
-    "dama/doctrine-test-bundle": "^6.5",
+    "dama/doctrine-test-bundle": "^v8.0",
     "doctrine/doctrine-fixtures-bundle": "^3.4",
     "phpunit/phpunit": "^11.0",
     "symfony/browser-kit": "7.4.*",
@@ -65,7 +63,11 @@
     "preferred-install": {
       "*": "dist"
     },
-    "sort-packages": true
+    "sort-packages": true,
+    "allow-plugins": {
+      "endroid/installer": true,
+      "symfony/flex": true
+    }
   },
   "autoload": {
     "psr-4": {
