@@ -12,9 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AtendeelistController extends AbstractController
 {
-    /**
-     * @Route("/room/atendeelist/download/excel/{uid}", name="atendeelist_download_excel")
-     */
+    #[Route(path: '/room/atendeelist/download/excel/{uid}', name: 'atendeelist_download_excel')]
     public function index($uid, TeilnehmerExcelService $teilnehmerExcelService): Response
     {
 

@@ -5,33 +5,23 @@ namespace App\Entity;
 use App\Repository\SchedulingTimeUserRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=SchedulingTimeUserRepository::class)
- */
+#[ORM\Entity(repositoryClass: SchedulingTimeUserRepository::class)]
 class SchedulingTimeUser
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="schedulingTimeUsers")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'schedulingTimeUsers')]
     private $user;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=SchedulingTime::class, inversedBy="schedulingTimeUsers")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: SchedulingTime::class, inversedBy: 'schedulingTimeUsers')]
     private $scheduleTime;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $accept;
 
     public function getId(): ?int

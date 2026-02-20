@@ -21,15 +21,8 @@ class LicenseService
 {
 
 
-    private $em;
-    private $translator;
-    private $parameterBag;
-
-    public function __construct(ParameterBagInterface $parameterBag, EntityManagerInterface $entityManager, TranslatorInterface $translator)
+    public function __construct(private ParameterBagInterface $parameterBag, private EntityManagerInterface $em, private TranslatorInterface $translator)
     {
-        $this->translator = $translator;
-        $this->em = $entityManager;
-        $this->parameterBag = $parameterBag;
     }
 
     function verify(Standort $server): bool

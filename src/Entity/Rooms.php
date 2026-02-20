@@ -7,230 +7,142 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=RoomsRepository::class)
- * @ORM\HasLifecycleCallbacks
- */
+#[ORM\Entity(repositoryClass: RoomsRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Rooms
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="text")
-     */
+    #[ORM\Column(type: 'text')]
     private $name;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private $start;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private $enddate;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="rooms")
-     */
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'rooms')]
     private $user;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Standort::class, inversedBy="rooms")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Standort::class, inversedBy: 'rooms')]
     private $standort;
 
-    /**
-     * @ORM\Column(type="text")
-     */
+    #[ORM\Column(type: 'text')]
     private $uid;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="roomModerator")
-     * @ORM\JoinColumn(nullable=true)
-     */
+    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'roomModerator')]
     private $moderator;
 
-    /**
-     * @ORM\Column(type="float")
-     */
+    #[ORM\Column(type: 'float')]
     private $duration;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $sequence;
 
-    /**
-     * @ORM\Column(type="text",nullable=true)
-     */
+    #[ORM\Column(type: 'text', nullable: true)]
     private $uidReal;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
+    #[ORM\Column(type: 'boolean')]
     private $onlyRegisteredUsers= false;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+    #[ORM\Column(type: 'text', nullable: true)]
     private $agenda;
 
-    /**
-     * @ORM\OneToMany(targetEntity=RoomsUser::class, mappedBy="room")
-     */
+    #[ORM\OneToMany(targetEntity: RoomsUser::class, mappedBy: 'room')]
     private $userAttributes;
 
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
+    #[ORM\Column(type: 'boolean', nullable: true)]
     private $dissallowScreenshareGlobal;
 
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
+    #[ORM\Column(type: 'boolean', nullable: true)]
     private $dissallowPrivateMessage;
 
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
+    #[ORM\Column(type: 'boolean', nullable: true)]
     private $public = true;
 
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
+    #[ORM\Column(type: 'boolean', nullable: true)]
     private $showRoomOnJoinpage;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+    #[ORM\Column(type: 'text', nullable: true)]
     private $uidParticipant;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+    #[ORM\Column(type: 'text', nullable: true)]
     private $uidModerator;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Subscriber::class, mappedBy="room")
-     */
+    #[ORM\OneToMany(targetEntity: Subscriber::class, mappedBy: 'room')]
     private $subscribers;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $maxParticipants;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Scheduling::class, mappedBy="room")
-     */
+    #[ORM\OneToMany(targetEntity: Scheduling::class, mappedBy: 'room')]
     private $schedulings;
 
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
+    #[ORM\Column(type: 'boolean', nullable: true)]
     private $scheduleMeeting;
 
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
+    #[ORM\Column(type: 'boolean', nullable: true)]
     private $waitinglist;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Waitinglist::class, mappedBy="room")
-     */
+    #[ORM\OneToMany(targetEntity: Waitinglist::class, mappedBy: 'room')]
     private $waitinglists;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $maxWaitingList;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="roomsStorno")
-     * @ORM\JoinTable(name="rooms_storno")
-     */
+    #[ORM\JoinTable(name: 'rooms_storno')]
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'roomsStorno')]
     private $storno;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Group::class, mappedBy="rooms")
-     */
+    #[ORM\OneToMany(targetEntity: Group::class, mappedBy: 'rooms')]
     private $groups;
 
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
+    #[ORM\Column(type: 'boolean', nullable: true)]
     private $allowGroups;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $maxGroupSize;
 
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
+    #[ORM\Column(type: 'boolean', nullable: true)]
     private $showRoomOnCalendar;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private $entryDateTime;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+    #[ORM\Column(type: 'text', nullable: true)]
     private $promoter;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+    #[ORM\Column(type: 'text', nullable: true)]
     private $additionalInfo;
 
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
+    #[ORM\Column(type: 'boolean', nullable: true)]
     private $showInCalendarWhenNoSpace;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+    #[ORM\Column(type: 'text', nullable: true)]
     private $textWhenNoSpace;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+    #[ORM\Column(type: 'text', nullable: true)]
     private $textWhenRoomWarteliste;
 
-    /**
-     * @ORM\OneToMany(targetEntity=FreeField::class, mappedBy="Room",cascade={"persist"})
-     */
+    #[ORM\OneToMany(targetEntity: FreeField::class, mappedBy: 'Room', cascade: ['persist'])]
     private $freeFields;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private $showAfterDate;
 
-    /**
-     * @ORM\OneToMany(targetEntity=UserEventCreated::class, mappedBy="event", orphanRemoval=true)
-     */
+    #[ORM\OneToMany(targetEntity: UserEventCreated::class, mappedBy: 'event', orphanRemoval: true)]
     private $userEventCreateds;
 
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
+    #[ORM\Column(type: 'boolean', nullable: true)]
     private $sendEmailOnRegister;
 
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
+    #[ORM\Column(type: 'boolean', nullable: true)]
     private $allowQuickRegistration;
 
     public function __construct()

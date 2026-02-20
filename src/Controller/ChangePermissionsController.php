@@ -14,9 +14,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ChangePermissionsController extends AbstractController
 {
-    /**
-     * @Route("/room/change/permissions/shareScreen", name="change_permissions_screenShare")
-     */
+    #[Route(path: '/room/change/permissions/shareScreen', name: 'change_permissions_screenShare')]
     public function shareScreen(Request $request, TranslatorInterface $translator, PermissionChangeService $permissionChangeService): Response
     {
         $room = $this->getDoctrine()->getRepository(Rooms::class)->find($request->get('room'));
@@ -33,9 +31,7 @@ class ChangePermissionsController extends AbstractController
         }
         return $this->redirectToRoute('dashboard', ['snack' => $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.')]);
     }
-    /**
-     * @Route("/room/change/permissions/privateMessage", name="change_permissions_privateMessage")
-     */
+    #[Route(path: '/room/change/permissions/privateMessage', name: 'change_permissions_privateMessage')]
     public function privateMesage(Request $request, TranslatorInterface $translator, PermissionChangeService $permissionChangeService): Response
     {
         $room = $this->getDoctrine()->getRepository(Rooms::class)->find($request->get('room'));
@@ -52,9 +48,7 @@ class ChangePermissionsController extends AbstractController
         }
         return $this->redirectToRoute('dashboard', ['snack' => $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.')]);
     }
-    /**
-     * @Route("/room/addModerator", name="room_add_moderator")
-     */
+    #[Route(path: '/room/addModerator', name: 'room_add_moderator')]
     public function roomTransferModerator(Request $request, PermissionChangeService $permissionChangeService, TranslatorInterface $translator)
     {
         $room = $this->getDoctrine()->getRepository(Rooms::class)->find($request->get('room'));

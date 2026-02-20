@@ -18,10 +18,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class AdHocMeetingController extends AbstractController
 {
     /**
-     * @Route("/room/adhoc/meeting/{userId}/{serverId}", name="add_hoc_meeting")
      * @ParamConverter("user", class="App\Entity\User",options={"mapping": {"userId": "id"}})
      * @ParamConverter("standort", class="App\Entity\Standort",options={"mapping": {"serverId": "id"}})
      */
+    #[Route(path: '/room/adhoc/meeting/{userId}/{serverId}', name: 'add_hoc_meeting')]
     public function index(User $user, Standort $standort, UserService $userService, TranslatorInterface $translator, ServerUserManagment $serverUserManagment): Response
     {
 

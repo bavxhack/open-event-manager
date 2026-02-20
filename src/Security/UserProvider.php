@@ -12,8 +12,6 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 class UserProvider implements UserProviderInterface
 {
-    private $entityManager;
-
     /**
      * UserProvider constructor.
      * @param EntityManagerInterface $entityManager
@@ -24,9 +22,8 @@ class UserProvider implements UserProviderInterface
      * @internal param Session $session
      * @internal param UserOptionService $userOptionsService
      */
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private EntityManagerInterface $entityManager)
     {
-        $this->entityManager = $entityManager;
     }
 
     /**
@@ -62,7 +59,7 @@ class UserProvider implements UserProviderInterface
      * @return UserInterface
      *
      */
-    public function refreshUser(UserInterface $user)
+    public function refreshUser(UserInterface $user): UserInterface
     {
         if (!$user instanceof User) {
             throw new UnsupportedUserException(
@@ -79,8 +76,13 @@ class UserProvider implements UserProviderInterface
      *
      * @return bool
      */
-    public function supportsClass($class)
+    public function supportsClass($class): bool
     {
         return $class === 'App\Security\User';
+    }
+
+    public function loadUserByIdentifier(string $identifier): UserInterface
+    {
+        // TODO: Implement loadUserByIdentifier() method.
     }
 }

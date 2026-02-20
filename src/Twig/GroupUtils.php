@@ -23,13 +23,8 @@ class GroupUtils extends AbstractExtension
 {
 
 
-    private $licenseService;
-    private $em;
-
-    public function __construct(EntityManagerInterface $entityManager, LicenseService $licenseService, TokenStorageInterface $tokenStorage, EntityManagerInterface $em)
+    public function __construct(private EntityManagerInterface $em, private LicenseService $licenseService, TokenStorageInterface $tokenStorage)
     {
-        $this->licenseService = $licenseService;
-        $this->em = $entityManager;
     }
 
     public function getFilters()

@@ -9,10 +9,8 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class KeycloakService
 {
-    private $em;
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private EntityManagerInterface $em)
     {
-        $this->em = $entityManager;
     }
 
     public function getUSer($email,$keycloakId = null) :?User{

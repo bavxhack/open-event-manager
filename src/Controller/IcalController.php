@@ -20,9 +20,9 @@ use Symfony\Contracts\Cache\ItemInterface;
 class IcalController extends AbstractController
 {
     /**
-     * @Route("/ical/{id}", name="ical")
      * @ParamConverter("user", class="App\Entity\User",options={"mapping": {"id": "uid"}})
      */
+    #[Route(path: '/ical/{id}', name: 'ical')]
     public function index(User $user, UserService $userService,LicenseService $licenseService, IcalService $icalService): Response
     {
 

@@ -7,13 +7,8 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class CloneService
 {
-    private $userService;
-    private $em;
-
-    public function __construct(UserService $userService, EntityManagerInterface $entityManager)
+    public function __construct(private UserService $userService, private EntityManagerInterface $em)
     {
-        $this->userService = $userService;
-        $this->em = $entityManager;
     }
 
     public function cloneEvent(Rooms $rooms, $distance, $unit, $addUser)

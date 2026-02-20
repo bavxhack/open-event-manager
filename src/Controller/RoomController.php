@@ -28,18 +28,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RoomController extends AbstractController
 {
-    private $translator;
-    private $logger;
-
-    public function __construct(TranslatorInterface $translator, LoggerService $logger)
+    public function __construct(private TranslatorInterface $translator, private LoggerService $logger)
     {
-        $this->translator = $translator;
-        $this->logger = $logger;
     }
 
-    /**
-     * @Route("/room/new", name="room_new")
-     */
+    #[Route(path: '/room/new', name: 'room_new')]
     public function newRoom(Request $request, UserService $userService, TranslatorInterface $translator, ServerUserManagment $serverUserManagment, UserEventCreateService $userEventCreateService)
     {
         $roomOld = null;
@@ -145,9 +138,7 @@ class RoomController extends AbstractController
         return $this->render('base/__newRoomModal.html.twig', array('form' => $form->createView(), 'title' => $title));
     }
 
-    /**
-     * @Route("/room/add-user", name="room_add_user")
-     */
+    #[Route(path: '/room/add-user', name: 'room_add_user')]
     public function roomAddUser(Request $request, InviteService $inviteService, UserService $userService)
     {
         $newMember = array();
@@ -192,9 +183,9 @@ class RoomController extends AbstractController
     }
 
     /**
-     * @Route("/room/join/{t}/{room}", name="room_join")
      * @ParamConverter("room", options={"mapping"={"room"="id"}})
      */
+    #[Route(path: '/room/join/{t}/{room}', name: 'room_join')]
     public
     function joinRoom(RoomService $roomService, Rooms $room, $t)
     {
@@ -207,9 +198,7 @@ class RoomController extends AbstractController
         return $this->redirectToRoute('dashboard', ['join_room' => $room->getId(), 'type' => $t]);
     }
 
-    /**
-     * @Route("/room/user/remove", name="room_user_remove")
-     */
+    #[Route(path: '/room/user/remove', name: 'room_user_remove')]
     public
     function roomUserRemove(Request $request, UserService $userService)
     {
@@ -257,9 +246,7 @@ class RoomController extends AbstractController
         return $this->redirectToRoute('dashboard', ['snack' => $snack]);
     }
 
-    /**
-     * @Route("/room/remove", name="room_remove")
-     */
+    #[Route(path: '/room/remove', name: 'room_remove')]
     public
     function roomRemove(Request $request, UserService $userService)
     {
@@ -284,9 +271,7 @@ class RoomController extends AbstractController
         return $this->redirectToRoute('dashboard', ['snack' => $snack]);
     }
 
-    /**
-     * @Route("/room/clone", name="room_clone")
-     */
+    #[Route(path: '/room/clone', name: 'room_clone')]
     public
     function roomClone(Request $request, UserService $userService, TranslatorInterface $translator, ServerUserManagment $serverUserManagment)
     {

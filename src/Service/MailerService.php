@@ -1,116 +1,107 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Emanuel
- * Date: 03.10.2019
- * Time: 19:01
- */
 
 namespace App\Service;
-
 
 use App\Entity\Standort;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
-use Symfony\Component\Mailer\Transport\TransportInterface;
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mailer\Transport;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Email;
+use Symfony\Component\Mime\Part\DataPart;
 
 class MailerService
 {
+    private ?MailerInterface $customMailer = null;
+    private ?string $userName = null;
 
-    private $smtp;
-    private $swift;
-    private $parameter;
-    private $kernel;
-    private $logger;
-    private $customMailer;
-    private $userName;
-    private $licenseService;
-    public function __construct(LicenseService $licenseService,LoggerInterface $logger, ParameterBagInterface $parameterBag, TransportInterface $smtp, \Swift_Mailer $swift_Mailer, KernelInterface $kernel)
+    public function __construct(private LicenseService $licenseService, private LoggerInterface $logger, private ParameterBagInterface $parameter, private MailerInterface $mailer, private KernelInterface $kernel)
     {
-        $this->smtp = $smtp;
-        $this->swift = $swift_Mailer;
-        $this->parameter = $parameterBag;
-        $this->kernel = $kernel;
-        $this->logger = $logger;
-        $this->customMailer = null;
-        $this->userName = null;
-        $this->licenseService = $licenseService;
     }
 
-    public function buildTransport(Standort $server)
+    public function buildTransport(Standort $server): void
     {
-
-        if ($server->getSmtpHost()) {
-            $this->logger->info('Build new Transport: ' . $server->getSmtpHost());
-            $tmpTransport = (new \Swift_SmtpTransport(
-                $server->getSmtpHost(),
-                $server->getSmtpPort(),
-                $server->getSmtpEncryption()))
-                ->setUsername($server->getSmtpUsername())
-                ->setPassword($server->getSmtpPassword());
-            $tmpMailer = new \Swift_Mailer($tmpTransport);
-            if ($this->userName != $server->getSmtpUsername()) {
-                $this->userName = $server->getSmtpUsername();
-                $this->logger->info('The Transport is new and we take him');
-                $this->customMailer = $tmpMailer;
-            }
+        if (!$server->getSmtpHost()) {
+            return;
         }
+
+        if ($this->userName === $server->getSmtpUsername() && $this->customMailer !== null) {
+            return;
+        }
+
+        $this->logger->info('Build new Transport: '.$server->getSmtpHost());
+        $dsn = sprintf(
+            '%s://%s:%s@%s:%d',
+            $server->getSmtpEncryption() ?: 'smtp',
+            rawurlencode((string) $server->getSmtpUsername()),
+            rawurlencode((string) $server->getSmtpPassword()),
+            $server->getSmtpHost(),
+            $server->getSmtpPort()
+        );
+        $transport = Transport::fromDsn($dsn);
+        $this->customMailer = new Mailer($transport);
+        $this->userName = $server->getSmtpUsername();
     }
 
-    public function sendEmail($to, $betreff, $content, Standort $server, $attachment = array()):bool
+    public function sendEmail($to, $betreff, $content, Standort $server, $attachment = []): bool
     {
+        $res = true;
 
         try {
-            $this->logger->info('Mail To: ' . $to);
-            $res = $this->sendViaSwiftMailer($to, $betreff, $content, $server, $attachment);
-
-        } catch (\Exception $e) {
+            $this->logger->info('Mail To: '.$to);
+            $res = $this->sendViaMailer($to, $betreff, $content, $server, $attachment);
+        } catch (\Throwable $e) {
             $this->logger->error($e->getMessage());
+            $res = false;
         }
+
         return $res;
     }
 
-    private function sendViaSwiftMailer($to, $betreff, $content, Standort $server, $attachment = array()):bool
+    private function sendViaMailer($to, $betreff, $content, Standort $server, $attachment = []): bool
     {
-        if(!$to){
+        if (!$to) {
             return true;
         }
+
         $this->buildTransport($server);
+
         if ($server->getSmtpHost() && $this->licenseService->verify($server)) {
-            $this->logger->info($server->getSmtpEmail());
             $sender = $server->getSmtpEmail();
             $senderName = $server->getSmtpSenderName();
         } else {
             $sender = $this->parameter->get('registerEmailAdress');
             $senderName = $this->parameter->get('registerEmailName');
         }
-        $message = (new \Swift_Message($betreff))
-            ->setFrom(array($sender => $senderName))
-            ->setTo($to)
-            ->setBody(
-                $content
-                , 'text/html'
-            );
+
+        $email = (new Email())
+            ->subject((string) $betreff)
+            ->from(new Address((string) $sender, (string) $senderName))
+            ->to(...(array) $to)
+            ->html((string) $content);
+
         foreach ($attachment as $data) {
-            $message->attach(new \Swift_Attachment($data['body'], $data['filename'], $data['type']));
-        };
+            $email->addPart(new DataPart($data['body'], $data['filename'], $data['type']));
+        }
 
         try {
-            if ($server->getSmtpHost()) {
+            if ($server->getSmtpHost() && $this->customMailer !== null) {
                 if ($this->kernel->getEnvironment() === 'dev') {
-                    $message->setTo($this->parameter->get('delivery_addresses'));
+                    $email->to(...(array) $this->parameter->get('delivery_addresses'));
                 }
-                $this->logger->info('Send from Custom Mailer');
-                $this->customMailer->send($message);
+                $this->customMailer->send($email);
             } else {
-                $this->swift->send($message);
+                $this->mailer->send($email);
             }
-        } catch (\Exception $e) {
-            $this->swift->send($message);
+        } catch (\Throwable $e) {
+            $this->mailer->send($email);
             $this->logger->error($e->getMessage());
             return false;
         }
+
         return true;
     }
 }

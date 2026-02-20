@@ -14,13 +14,8 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 class ServerUserManagment
 {
 
-    private $em;
-    private $parameter;
-
-    public function __construct(ParameterBagInterface $parameterBag, EntityManagerInterface $entityManager)
+    public function __construct(private ParameterBagInterface $parameter, private EntityManagerInterface $em)
     {
-        $this->parameter = $parameterBag;
-        $this->em = $entityManager;
     }
 
     /**

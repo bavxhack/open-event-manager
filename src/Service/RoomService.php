@@ -26,16 +26,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class RoomService
 {
-    private $em;
-    private $logger;
-    private $translator;
-
-    public function __construct(TranslatorInterface $translator, EntityManagerInterface $entityManager, FormFactoryInterface $formBuilder, LoggerInterface $logger)
+    public function __construct(private TranslatorInterface $translator, private EntityManagerInterface $em, FormFactoryInterface $formBuilder, private LoggerInterface $logger)
     {
-        $this->em = $entityManager;
-        $this->logger = $logger;
-        $this->translator = $translator;
-
     }
 
     /**

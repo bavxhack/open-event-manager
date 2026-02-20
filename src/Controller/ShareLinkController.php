@@ -30,20 +30,14 @@ use function Symfony\Component\String\s;
 
 class ShareLinkController extends AbstractController
 {
-    private $em;
-    private $logger;
-
-    public function __construct(EntityManagerInterface $entityManager, LoggerService $logger)
+    public function __construct(private EntityManagerInterface $em, private LoggerService $logger)
     {
-        $this->em = $entityManager;
-        $this->logger = $logger;
-
     }
 
     /**
-     * @Route("/room/share/link/{id}", name="share_link")
      * @ParamConverter("rooms")
      */
+    #[Route(path: '/room/share/link/{id}', name: 'share_link')]
     public function index(Rooms $rooms): Response
     {
         if (!$rooms || !$rooms->getModerator() == $this->getUser() || $rooms->getPublic() != true) {
@@ -54,9 +48,9 @@ class ShareLinkController extends AbstractController
     }
 
     /**
-     * @Route("/room/share/link/accetwaitinglist/{id}", name="accept_waitingList")
      * @ParamConverter("waitinglist")
      */
+    #[Route(path: '/room/share/link/accetwaitinglist/{id}', name: 'accept_waitingList')]
     public function waitinglistAccept(Waitinglist $waitinglist, SubcriptionService $subcriptionService): Response
     {
         if ($waitinglist->getRoom()->getModerator() == $this->getUser()) {
@@ -69,9 +63,9 @@ class ShareLinkController extends AbstractController
     }
 
     /**
-     * @Route("/room/share/link/deniewaitinglist/{id}", name="denie_waitingList")
      * @ParamConverter("waitinglist")
      */
+    #[Route(path: '/room/share/link/deniewaitinglist/{id}', name: 'denie_waitingList')]
     public function waitinglistDenie(Waitinglist $waitinglist, SubcriptionService $subcriptionService, UserService $userService, TranslatorInterface $translator): Response
     {
 
@@ -116,9 +110,7 @@ class ShareLinkController extends AbstractController
 
     }
 
-    /**
-     * @Route("/subscribe/self/{uid}", name="public_subscribe_participant")
-     */
+    #[Route(path: '/subscribe/self/{uid}', name: 'public_subscribe_participant')]
     public function participants($uid, Request $request, SubcriptionService $subcriptionService, TranslatorInterface $translator, PexelService $pexelService): Response
     {
         $rooms = new Rooms();
@@ -232,9 +224,7 @@ class ShareLinkController extends AbstractController
     }
 
 
-    /**
-     * @Route("/subscribe/optIn/{uid}", name="public_subscribe_doupleOptIn")
-     */
+    #[Route(path: '/subscribe/optIn/{uid}', name: 'public_subscribe_doupleOptIn')]
     public function doupleoptin($uid, SubcriptionService $subcriptionService, TranslatorInterface $translator, UserService $userService, PexelService $pexelService): Response
     {
         $subscriber = $this->em->getRepository(Subscriber::class)->findOneBy(array('uid' => $uid));

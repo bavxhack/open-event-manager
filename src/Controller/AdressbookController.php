@@ -10,9 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AdressbookController extends AbstractController
 {
-    /**
-     * @Route("/room/adressbook/remove", name="adressbook_remove_user")
-     */
+    #[Route(path: '/room/adressbook/remove', name: 'adressbook_remove_user')]
     public function index(Request $request): Response
     {
         $user = $this->getDoctrine()->getRepository(User::class)->find($request->get('id'));

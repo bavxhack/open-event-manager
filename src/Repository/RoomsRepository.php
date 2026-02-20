@@ -49,6 +49,29 @@ class RoomsRepository extends ServiceEntityRepository
         ;
     }
     */
+
+     /**
+      * @return Rooms[] Returns an array of Rooms objects
+      */
+
+    public function findRoomsOnIndex()
+    {
+        $qb = $this->createQueryBuilder('rooms');
+        $now = new \DateTime();
+        $qb->andWhere('rooms.showRoomOnCalendar = true')
+            ->andWhere($qb->expr()->isNotNull('rooms.moderator'))
+            ->andWhere($qb->expr()->orX(
+                $qb->expr()->isNull('rooms.showAfterDate'),
+                $qb->expr()->lte('rooms.showAfterDate',':now')
+            ))
+            ->setParameter('now',$now);
+       return $qb->getQuery()->getResult();
+
+
+    }
+
+
+
     public function findRoomsInFuture(User $user)
     {
         $now = new \DateTime();

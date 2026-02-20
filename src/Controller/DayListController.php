@@ -15,9 +15,7 @@ use function Doctrine\ORM\QueryBuilder;
 
 class DayListController extends AbstractController
 {
-    /**
-     * @Route("/room/day/list", name="day_list")
-     */
+    #[Route(path: '/room/day/list', name: 'day_list')]
     public function index(Request $request, TeilnehmerExcelService $teilnehmerExcelService): Response
     {
         $from = $request->get('from') ? new \DateTime($request->get('from')) : new \DateTime();
@@ -36,9 +34,7 @@ class DayListController extends AbstractController
             ->getResult();
         return $this->file($teilnehmerExcelService->generateTeilnehmerDayList($rooms,md5(uniqid()) ), $from->format('d.m.Y').' - '.$to->format('d.m.Y') . '.xlsx', ResponseHeaderBag::DISPOSITION_INLINE);
     }
-    /**
-     * @Route("/room/day/list/modal", name="day_list_modal")
-     */
+    #[Route(path: '/room/day/list/modal', name: 'day_list_modal')]
     public function modal(Request $request, TeilnehmerExcelService $teilnehmerExcelService,TranslatorInterface $translator): Response
     {
 

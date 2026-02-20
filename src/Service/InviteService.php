@@ -20,21 +20,8 @@ class InviteService
 {
 
 
-    private $em;
-    private $translator;
-    private $router;
-    private $mailer;
-    private $parameterBag;
-    private $twig;
-
-    public function __construct(Environment $environment, ParameterBagInterface $parameterBag, MailerService $mailerService, EntityManagerInterface $entityManager, TranslatorInterface $translator, UrlGeneratorInterface $urlGenerator)
+    public function __construct(private Environment $twig, private ParameterBagInterface $parameterBag, private MailerService $mailer, private EntityManagerInterface $em, private TranslatorInterface $translator, private UrlGeneratorInterface $router)
     {
-        $this->translator = $translator;
-        $this->em = $entityManager;
-        $this->router = $urlGenerator;
-        $this->mailer = $mailerService;
-        $this->parameterBag = $parameterBag;
-        $this->twig = $environment;
     }
 
     public function newUser($email)

@@ -9,10 +9,8 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class UserEventCreateService
 {
-    private $em;
-     public function __construct(EntityManagerInterface $entityManager)
-     {$this->em = $entityManager;
-
+    public function __construct(private EntityManagerInterface $em)
+     {
      }
      public function createEvent(User $user,Rooms $event){
          $createdAt = $this->em->getRepository(UserEventCreated::class)->findOneBy(array('user'=>$user,'event'=>$event));

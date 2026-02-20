@@ -18,9 +18,9 @@ class AdminController extends AbstractController
 {
 
     /**
-     * @Route("/admin/server/{server}", name="admin_server")
      * @ParamConverter("server", class="App\Entity\Server",options={"mapping": {"server": "id"}})
      */
+    #[Route(path: '/admin/server/{server}', name: 'admin_server')]
     public function server(Standort $server, AdminService $adminService, HttpClientInterface $httpClient, TranslatorInterface $translator)
     {
         $countPart = 0;

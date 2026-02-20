@@ -13,11 +13,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class CronSendReminderCommand extends Command
 {
     protected static $defaultName = 'app:cron:sendReminder';
-    private $reminderService;
-    public function __construct( ReminderService $reminderService, string $name = null)
+    public function __construct( private ReminderService $reminderService, string $name = null)
     {
         parent::__construct($name);
-        $this->reminderService = $reminderService;
     }
 
     protected function configure()

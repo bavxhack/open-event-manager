@@ -16,16 +16,12 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class LoginController extends AbstractController
 {
-    /**
-     * @Route("/login/auth0_login", name="login_auth0")
-     */
+    #[Route(path: '/login/auth0_login', name: 'login_auth0')]
     public function index(ClientRegistry $clientRegistry): Response
     {
       return $clientRegistry->getClient('auth0_main')->redirect(['user']);
     }
-    /**
-     * @Route("/login/auth0_login/check", name="connect_auth0_check")
-     */
+    #[Route(path: '/login/auth0_login/check', name: 'connect_auth0_check')]
     public function check(ClientRegistry $clientRegistry, Request $request)
     {
         // ** if you want to *authenticate* the user, then
@@ -51,9 +47,7 @@ class LoginController extends AbstractController
     }
 
 
-    /**
-     * @Route("/room/logout_keycloak", name="logout_keycloak")
-     */
+    #[Route(path: '/room/logout_keycloak', name: 'logout_keycloak')]
     public function logout(
         ClientRegistry $clientRegistry,
         Request        $request

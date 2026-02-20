@@ -14,9 +14,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CreateEventsController extends AbstractController
 {
-    /**
-     * @Route("/room/create/events", name="create_events")
-     */
+    #[Route(path: '/room/create/events', name: 'create_events')]
     public function index(Request $request, TranslatorInterface $translator, CloneService $cloneService): Response
     {
         $roomOld = $this->getDoctrine()->getRepository(Rooms::class)->find($request->get('roomId'));

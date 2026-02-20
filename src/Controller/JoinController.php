@@ -20,17 +20,12 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class JoinController extends AbstractController
 {
-    private $parameterBag;
-
-    public function __construct(ParameterBagInterface $parameterBag)
+    public function __construct(private ParameterBagInterface $parameterBag)
     {
-        $this->parameterBag = $parameterBag;
     }
 
-    /**
-     * @Route("/join/{slug}", name="join_index")
-     * @Route("/join", name="join_index_no_slug")
-     */
+    #[Route(path: '/join/{slug}', name: 'join_index')]
+    #[Route(path: '/join', name: 'join_index_no_slug')]
     public function index($slug = null, PexelService $pexelService, Request $request, TranslatorInterface $translator, RoomService $roomService, HttpClientInterface $httpClient)
     {
         $data = array();

@@ -17,9 +17,7 @@ use function Doctrine\ORM\QueryBuilder;
 
 class ReminderLizenseController extends AbstractController
 {
-    /**
-     * @Route("/reminder/lizense", name="reminder_lizense")
-     */
+    #[Route(path: '/reminder/lizense', name: 'reminder_lizense')]
     public function index(LoggerInterface $logger, Request $request, MailerService $mailerService, TranslatorInterface $translator,ParameterBagInterface $parameterBag): Response
     {
         if ($request->get('token') !== $parameterBag->get('cronToken')) {

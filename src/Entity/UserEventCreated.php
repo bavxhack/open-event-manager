@@ -5,33 +5,23 @@ namespace App\Entity;
 use App\Repository\UserEventCreatedRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=UserEventCreatedRepository::class)
- */
+#[ORM\Entity(repositoryClass: UserEventCreatedRepository::class)]
 class UserEventCreated
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="userEventCreateds")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'userEventCreateds')]
     private $user;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Rooms::class, inversedBy="userEventCreateds")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Rooms::class, inversedBy: 'userEventCreateds')]
     private $event;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: 'datetime')]
     private $created_at;
 
     public function getId(): ?int

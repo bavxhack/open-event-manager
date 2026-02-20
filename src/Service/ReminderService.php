@@ -12,14 +12,8 @@ use function Doctrine\ORM\QueryBuilder;
 
 class ReminderService
 {
-    private $em;
-    private $parameterBag;
-    private $userService;
-    public function __construct(EntityManagerInterface  $entityManager, ParameterBagInterface $parameterBag,UserService  $userService)
+    public function __construct(private EntityManagerInterface  $em, private ParameterBagInterface $parameterBag, private UserService  $userService)
     {
-        $this->em = $entityManager;
-        $this->parameterBag = $parameterBag;
-        $this->userService = $userService;
     }
 
     public function sendReminder(){

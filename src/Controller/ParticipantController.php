@@ -13,9 +13,7 @@ use function GuzzleHttp\Psr7\str;
 
 class ParticipantController extends AbstractController
 {
-    /**
-     * @Route("/room/participant", name="search_participant")
-     */
+    #[Route(path: '/room/participant', name: 'search_participant')]
     public function index(Request $request, TranslatorInterface $translator): Response
     {
        $string = $request->get('search');
