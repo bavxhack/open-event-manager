@@ -8,21 +8,21 @@ use App\Entity\User;
 use App\Service\RoomService;
 use App\Service\ServerUserManagment;
 use App\Service\UserService;
-use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Reflection\Types\This;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class AdHocMeetingController extends AbstractController
 {
-        #[Route("/room/adhoc/meeting/{userId}/{serverId}", name: "add_hoc_meeting")]
-    #[MapEntity(expr: "repository.findOneBy({'id': userId})")]
-    #[MapEntity(expr: "repository.findOneBy({'id': serverId})")]
-
-public function index(User $user, Standort $standort, UserService $userService, TranslatorInterface $translator, ServerUserManagment $serverUserManagment, EntityManagerInterface $entityManager): Response
+    /**
+     * @ParamConverter("user", class="App\Entity\User",options={"mapping": {"userId": "id"}})
+     * @ParamConverter("standort", class="App\Entity\Standort",options={"mapping": {"serverId": "id"}})
+     */
+    #[Route(path: '/room/adhoc/meeting/{userId}/{serverId}', name: 'add_hoc_meeting')]
+    public function index(User $user, Standort $standort, UserService $userService, TranslatorInterface $translator, ServerUserManagment $serverUserManagment): Response
     {
 
         if(!in_array($user,$this->getUser()->getAddressbook()->toArray())){
@@ -44,7 +44,7 @@ public function index(User $user, Standort $standort, UserService $userService, 
         $room->setStandort($standort);
         $room->setName($translator->trans('Event mit {n}',array('{n}'=>$user->getEmail())));
         $room->setOnlyRegisteredUsers(false);
-        $em = $entityManager;
+        $em = $this->getDoctrine()->getManager();
         $em->persist($room);
         $em->flush();
         $user->addRoom($room);

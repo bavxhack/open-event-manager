@@ -21,14 +21,13 @@ use App\Service\NotificationService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class StandortController extends AbstractController
 {
-        #[Route("/server/add", name: "servers_add")]
-
+    #[Route(path: '/server/add', name: 'servers_add')]
     public function serverAdd(Request $request, ValidatorInterface $validator, StandortService $serverService, TranslatorInterface $translator)
     {
         if ($request->get('id')) {
@@ -66,8 +65,8 @@ class StandortController extends AbstractController
         return $this->render('servers/__addServerModal.html.twig', array('form' => $form->createView(), 'title' => $title, 'standort' => $standort));
 
     }
-        #[Route("/server/enterprise", name: "servers_enterprise")]
 
+    #[Route(path: '/server/enterprise', name: 'servers_enterprise')]
     public function serverEnterprise(Request $request, ValidatorInterface $validator, StandortService $serverService, TranslatorInterface $translator, LicenseService $licenseService)
     {
 
@@ -96,8 +95,8 @@ class StandortController extends AbstractController
         return $this->render('servers/__serverEnterpriseModal.html.twig', array('form' => $form->createView(), 'title' => $title, 'server' => $server));
 
     }
-        #[Route("/server/add-user", name: "server_add_user")]
 
+    #[Route(path: '/server/add-user', name: 'server_add_user')]
     public function roomAddUser(Request $request, InviteService $inviteService, StandortService $serverService, TranslatorInterface $translator)
     {
         $newMember = array();
@@ -133,8 +132,8 @@ class StandortController extends AbstractController
 
         return $this->render('servers/permissionModal.html.twig', array('form' => $form->createView(), 'title' => $title, 'users' => $server->getUser(), 'server' => $server));
     }
-        #[Route("/server/user/remove", name: "server_user_remove")]
 
+    #[Route(path: '/server/user/remove', name: 'server_user_remove')]
     public
     function serverUserRemove(Request $request, TranslatorInterface $translator)
     {
@@ -152,8 +151,8 @@ class StandortController extends AbstractController
 
         return $this->redirectToRoute('dashboard', ['snack' => $snack]);
     }
-        #[Route("/server/delete", name: "server_delete")]
 
+    #[Route(path: '/server/delete', name: 'server_delete')]
     public
     function serverDelete(Request $request, TranslatorInterface $translator, StandortService $serverService)
     {
@@ -177,8 +176,8 @@ class StandortController extends AbstractController
 
         return $this->redirectToRoute('dashboard', ['snack' => $snack]);
     }
-        #[Route("/server/check/email", name: "server_check_email")]
 
+    #[Route(path: '/server/check/email', name: 'server_check_email')]
     public
     function servercheckEmail(Request $request, TranslatorInterface $translator, MailerService $mailerService)
     {

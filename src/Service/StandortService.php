@@ -22,19 +22,8 @@ use Twig\Environment;
 
 class StandortService
 {
-    private $em;
-    private $logger;
-    private $notification;
-    private $twig;
-    private $translator;
-
-    public function __construct(TranslatorInterface $translator, EntityManagerInterface $entityManager, Environment $environment, LoggerInterface $logger, NotificationService $notificationService)
+    public function __construct(private TranslatorInterface $translator, private EntityManagerInterface $em, private Environment $twig, private LoggerInterface $logger, private NotificationService $notification)
     {
-        $this->em = $entityManager;
-        $this->logger = $logger;
-        $this->notification = $notificationService;
-        $this->twig = $environment;
-        $this->translator = $translator;
     }
 
     function addPermission(Standort $standort, User $user)

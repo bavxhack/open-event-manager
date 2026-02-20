@@ -16,14 +16,8 @@ use Symfony\Component\Form\FormFactoryInterface;
 
 class CronService
 {
-    private $em;
-    private $logger;
-
-    public function __construct(EntityManagerInterface $entityManager, FormFactoryInterface $formBuilder, LoggerInterface $logger)
+    public function __construct(private EntityManagerInterface $em, FormFactoryInterface $formBuilder, private LoggerInterface $logger)
     {
-        $this->em = $entityManager;
-        $this->logger = $logger;
-
     }
 
     function check($request)

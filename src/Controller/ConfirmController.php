@@ -9,18 +9,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 
 class ConfirmController extends AbstractController
 {
-    private $logger;
-
-    public function __construct(LoggerService $logger)
+    public function __construct(private LoggerService $logger)
     {
-        $this->logger = $logger;
     }
-        #[Route("/room/confirm/manuell", name: "confirm_manuell")]
 
+    #[Route(path: '/room/confirm/manuell', name: 'confirm_manuell')]
     public function index(Request $request, SubcriptionService $subcriptionService): Response
     {
         $subscriber = $this->getDoctrine()->getRepository(Subscriber::class)->find($request->get('id'));

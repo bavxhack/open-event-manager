@@ -52,6 +52,7 @@
     "dama/doctrine-test-bundle": "^v8.0",
     "doctrine/doctrine-fixtures-bundle": "^3.4",
     "phpunit/phpunit": "^11.0",
+    "rector/rector": "^2.3",
     "symfony/browser-kit": "7.4.*",
     "symfony/css-selector": "7.4.*",
     "symfony/debug-bundle": "7.4.*",

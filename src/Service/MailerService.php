@@ -15,26 +15,11 @@ use Symfony\Component\Mime\Part\DataPart;
 
 class MailerService
 {
-    private MailerInterface $mailer;
-    private ParameterBagInterface $parameter;
-    private KernelInterface $kernel;
-    private LoggerInterface $logger;
     private ?MailerInterface $customMailer = null;
     private ?string $userName = null;
-    private LicenseService $licenseService;
 
-    public function __construct(
-        LicenseService $licenseService,
-        LoggerInterface $logger,
-        ParameterBagInterface $parameterBag,
-        MailerInterface $mailer,
-        KernelInterface $kernel
-    ) {
-        $this->mailer = $mailer;
-        $this->parameter = $parameterBag;
-        $this->kernel = $kernel;
-        $this->logger = $logger;
-        $this->licenseService = $licenseService;
+    public function __construct(private LicenseService $licenseService, private LoggerInterface $logger, private ParameterBagInterface $parameter, private MailerInterface $mailer, private KernelInterface $kernel)
+    {
     }
 
     public function buildTransport(Standort $server): void

@@ -12,8 +12,6 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 class UserProvider implements UserProviderInterface
 {
-    private $entityManager;
-
     /**
      * UserProvider constructor.
      * @param EntityManagerInterface $entityManager
@@ -24,9 +22,8 @@ class UserProvider implements UserProviderInterface
      * @internal param Session $session
      * @internal param UserOptionService $userOptionsService
      */
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private EntityManagerInterface $entityManager)
     {
-        $this->entityManager = $entityManager;
     }
 
     /**

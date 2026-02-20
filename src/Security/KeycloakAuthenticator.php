@@ -30,34 +30,11 @@ use Symfony\Component\Security\Http\Util\TargetPathTrait;
 class KeycloakAuthenticator extends OAuth2Authenticator implements AuthenticationEntryPointInterface
 {
     use TargetPathTrait;
-
-    private $clientRegistry;
-    private $em;
-    private $router;
-    private $tokenStorage;
     private $userManager;
-    private $paramterBag;
-    private $userCreatorService;
     private $indexer;
-    private $logger;
 
-    public function __construct(
-        LoggerInterface        $logger,
-        ParameterBagInterface  $parameterBag,
-        TokenStorageInterface  $tokenStorage,
-        ClientRegistry         $clientRegistry,
-        EntityManagerInterface $em,
-        RouterInterface        $router,
-        UserCreatorService     $userCreatorService
-    )
+    public function __construct(private LoggerInterface        $logger, private ParameterBagInterface  $paramterBag, private TokenStorageInterface  $tokenStorage, private ClientRegistry         $clientRegistry, private EntityManagerInterface $em, private RouterInterface        $router, private UserCreatorService     $userCreatorService)
     {
-        $this->clientRegistry = $clientRegistry;
-        $this->em = $em;
-        $this->router = $router;
-        $this->tokenStorage = $tokenStorage;
-        $this->paramterBag = $parameterBag;
-        $this->logger = $logger;
-        $this->userCreatorService = $userCreatorService;
     }
 
     public function supports(Request $request): bool

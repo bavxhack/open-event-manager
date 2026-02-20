@@ -13,19 +13,18 @@ use App\Service\SchedulingService;
 use App\Service\ServerUserManagment;
 use App\Service\UserEventCreateService;
 use App\Service\UserService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ScheduleController extends AbstractController
 {
-        #[Route("room/schedule/new", name: "schedule_admin_new")]
-
+    #[Route(path: 'room/schedule/new', name: 'schedule_admin_new')]
     public function new( Request $request, TranslatorInterface $translator, ServerUserManagment $serverUserManagment, UserService $userService, UserEventCreateService $userEventCreateService): Response
     {
         if ($request->get('id')) {
@@ -107,9 +106,11 @@ class ScheduleController extends AbstractController
         }
         return $this->render('base/__newRoomModal.html.twig', array('form' => $form->createView(), 'title' => $title));
     }
-        #[Route("room/schedule/admin/{id}", name: "schedule_admin",methods: ["GET"])]
-    #[MapEntity(mapping: ['room' => 'id'])]
 
+    /**
+     * @ParamConverter("room", options={"mapping"={"room"="id"}})
+     */
+    #[Route(path: 'room/schedule/admin/{id}', name: 'schedule_admin', methods: ['GET'])]
     public function index(Rooms $rooms, Request $request): Response
     {
         if ($rooms->getModerator() !== $this->getUser()) {
@@ -121,9 +122,11 @@ class ScheduleController extends AbstractController
             'room' => $rooms,
         ]);
     }
-        #[Route("room/schedule/admin/add/{id}", name: "schedule_admin_add",methods: ["POST"])]
-    #[MapEntity(mapping: ['room' => 'id'])]
 
+    /**
+     * @ParamConverter("room", options={"mapping"={"room"="id"}})
+     */
+    #[Route(path: 'room/schedule/admin/add/{id}', name: 'schedule_admin_add', methods: ['POST'])]
     public function add(Rooms $rooms, Request $request): Response
     {
         if ($rooms->getModerator() !== $this->getUser()) {
@@ -152,10 +155,12 @@ class ScheduleController extends AbstractController
 
         return new JsonResponse(array('error' => false));
     }
-        #[Route("room/schedule/admin/remove/{id}", name: "schedule_admin_remove",methods: ["DELETE"])]
-    #[MapEntity]
 
-public function remove(SchedulingTime $schedulingTime, Request $request): Response
+    /**
+     * @ParamConverter("schedulingTime")
+     */
+    #[Route(path: 'room/schedule/admin/remove/{id}', name: 'schedule_admin_remove', methods: ['DELETE'])]
+    public function remove(SchedulingTime $schedulingTime, Request $request): Response
     {
         if ($schedulingTime->getScheduling()->getRoom()->getModerator() !== $this->getUser()) {
             throw new NotFoundHttpException('Room not found');
@@ -175,10 +180,12 @@ public function remove(SchedulingTime $schedulingTime, Request $request): Respon
 
         return new JsonResponse(array('error' => false));
     }
-        #[Route("room/schedule/admin/choose/{id}", name: "schedule_admin_choose",methods: ["GET"])]
-    #[MapEntity]
 
-public function choose(SchedulingTime $schedulingTime, Request $request, SchedulingService $schedulingService, TranslatorInterface $translator): Response
+    /**
+     * @ParamConverter("schedulingTime")
+     */
+    #[Route(path: 'room/schedule/admin/choose/{id}', name: 'schedule_admin_choose', methods: ['GET'])]
+    public function choose(SchedulingTime $schedulingTime, Request $request, SchedulingService $schedulingService, TranslatorInterface $translator): Response
     {
         if ($schedulingTime->getScheduling()->getRoom()->getModerator() !== $this->getUser()) {
             throw new NotFoundHttpException('Room not found');
@@ -189,11 +196,13 @@ public function choose(SchedulingTime $schedulingTime, Request $request, Schedul
         };
         return $this->redirectToRoute('dashboard', array('snack' => $text));
     }
-        #[Route("schedule/{scheduleId}/{userId}", name: "schedule_public_main", methods: ["GET"])]
-         #[MapEntity(expr: "repository.findOneBy({'uid': userId})")]
-    #[MapEntity(expr: "repository.findOneBy({'uid': scheduleId})")]
 
-public function public(Scheduling $scheduling, User $user, Request $request, PexelService $pexelService, TranslatorInterface $translator): Response
+    /**
+     * @ParamConverter("user", class="App\Entity\User",options={"mapping": {"userId": "uid"}})
+     * @ParamConverter("scheduling", class="App\Entity\Scheduling",options={"mapping": {"scheduleId": "uid"}})
+     */
+    #[Route(path: 'schedule/{scheduleId}/{userId}', name: 'schedule_public_main', methods: ['GET'])]
+    public function public(Scheduling $scheduling, User $user, Request $request, PexelService $pexelService, TranslatorInterface $translator): Response
     {
         if (!in_array($user, $scheduling->getRoom()->getUser()->toArray())) {
             return $this->redirectToRoute('join_index_no_slug', ['snack' => $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.'), 'color' => 'danger']);
@@ -209,8 +218,8 @@ public function public(Scheduling $scheduling, User $user, Request $request, Pex
 
         return $this->render('schedule/schedulePublic.html.twig', array('user' => $user, 'scheduling' => $scheduling, 'room' => $scheduling->getRoom(), 'standort' => $standort));
     }
-        #[Route("schedule/vote", name: "schedule_public_vote", methods: ["POST"])]
 
+    #[Route(path: 'schedule/vote', name: 'schedule_public_vote', methods: ['POST'])]
     public function vote(Request $request, TranslatorInterface $translator): Response
     {
         $user = $this->getDoctrine()->getRepository(User::class)->find($request->get('user'));

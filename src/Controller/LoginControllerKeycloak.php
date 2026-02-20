@@ -6,19 +6,18 @@ use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class LoginControllerKeycloak extends AbstractController
 {
-        #[Route("/login", name: "login_keycloak")]
-
+    #[Route(path: '/login', name: 'login_keycloak')]
     public function index(ClientRegistry $clientRegistry): Response
     {
       return $clientRegistry->getClient('keycloak_main')->redirect(['email','openid','profile']);
     }
-        #[Route("/register", name: "register_keycloak")]
 
+    #[Route(path: '/register', name: 'register_keycloak')]
     public function register(ClientRegistry $clientRegistry): Response
     {
         $url = $this->getParameter('KEYCLOAK_URL').'/realms/'.$this->getParameter('KEYCLOAK_REALM').'/protocol/openid-connect/registrations?client_id='.
@@ -32,15 +31,14 @@ class LoginControllerKeycloak extends AbstractController
     {
 
     }
-        #[Route("/login/keycloak_edit", name: "connect_keycloak_edit")]
 
+    #[Route(path: '/login/keycloak_edit', name: 'connect_keycloak_edit')]
     public function edit(ClientRegistry $clientRegistry, Request $request)
     {
         $url = $this->getParameter('KEYCLOAK_URL').'/realms/'.$this->getParameter('KEYCLOAK_REALM').'/account';
         return $this->redirect($url);
     }
-        #[Route("/login/keycloak_password", name: "connect_keycloak_password")]
-
+    #[Route(path: '/login/keycloak_password', name: 'connect_keycloak_password')]
     public function password(ClientRegistry $clientRegistry, Request $request)
     {
         $url = $this->getParameter('KEYCLOAK_URL').'/realms/'.$this->getParameter('KEYCLOAK_REALM').'/account/password';

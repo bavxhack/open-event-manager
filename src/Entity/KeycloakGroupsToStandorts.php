@@ -5,23 +5,19 @@ namespace App\Entity;
 use App\Repository\KeycloakGroupsToStandortsRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-    #[ORM\Entity(repositoryClass: KeycloakGroupsToStandortsRepository::class)]
-
+#[ORM\Entity(repositoryClass: KeycloakGroupsToStandortsRepository::class)]
 class KeycloakGroupsToStandorts
 {
-        #[ORM\Id]
+    #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: "integer")]
-
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-        #[ORM\ManyToOne(targetEntity: Standort::class, inversedBy: "keycloakGroups")]
     #[ORM\JoinColumn(nullable: false)]
-
+    #[ORM\ManyToOne(targetEntity: Standort::class, inversedBy: 'keycloakGroups')]
     private $standort;
 
-        #[ORM\Column(type: "text")]
-
+    #[ORM\Column(type: 'text')]
     private $keycloakGroup;
 
     public function getId(): ?int

@@ -7,12 +7,8 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class UserCreatorService
 {
-    private $em;
-
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private EntityManagerInterface $em)
     {
-        $this->em = $entityManager;
-
     }
 
     public function createUser($email, $userName, $firstName = null, $lastName = null, $dryrun = false): User

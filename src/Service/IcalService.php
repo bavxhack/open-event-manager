@@ -15,15 +15,9 @@ use Symfony\Contracts\Cache\ItemInterface;
 
 class IcalService
 {
-    private $licenseService;
-    private $em;
-    private $userService;
     private $user;
-    public function __construct(LicenseService $licenseService, EntityManagerInterface $entityManager,UserService $userService)
+    public function __construct(private LicenseService $licenseService, private EntityManagerInterface $em, private UserService $userService)
     {
-        $this->licenseService = $licenseService;
-        $this->em = $entityManager;
-        $this->userService = $userService;
     }
 
     public function getIcal(User $user)

@@ -19,12 +19,8 @@ class License extends AbstractExtension
 {
 
 
-    private $licenseService;
-
-    public function __construct(LicenseService $licenseService, TokenStorageInterface $tokenStorage, EntityManagerInterface $em)
+    public function __construct(private LicenseService $licenseService, TokenStorageInterface $tokenStorage, EntityManagerInterface $em)
     {
-        $this->licenseService = $licenseService;
-
     }
 
     public function getFilters()

@@ -26,12 +26,8 @@ class ImagePexels extends AbstractExtension
 
 
 
-    private $em;
-    private $pexelsService;
-    public function __construct(PexelService $pexelService, EntityManagerInterface $entityManager, TokenStorageInterface $tokenStorage, EntityManagerInterface $em)
+    public function __construct(private PexelService $pexelsService, private EntityManagerInterface $em, TokenStorageInterface $tokenStorage)
     {
-        $this->em = $entityManager;
-        $this->pexelsService = $pexelService;
     }
 
     public function getFunctions(): array

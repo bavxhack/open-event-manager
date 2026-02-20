@@ -5,26 +5,21 @@ namespace App\Entity;
 use App\Repository\ApiKeysRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-    #[ORM\Entity(repositoryClass: ApiKeysRepository::class)]
-
+#[ORM\Entity(repositoryClass: ApiKeysRepository::class)]
 class ApiKeys
 {
-        #[ORM\Id]
+    #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: "integer")]
-
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-        #[ORM\Column(type: "text")]
-
+    #[ORM\Column(type: 'text')]
     private $clientId;
 
-        #[ORM\Column(type: "text")]
-
+    #[ORM\Column(type: 'text')]
     private $clientSecret;
 
-        #[ORM\Column(type: "datetime")]
-
+    #[ORM\Column(type: 'datetime')]
     private $createdAt;
 
     public function getId(): ?int

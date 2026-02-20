@@ -5,7 +5,6 @@ namespace App\Command;
 use App\Entity\KeycloakGroupsToStandorts;
 use App\Entity\Standort;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -13,14 +12,12 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-#[AsCommand(name: 'app:removeServerAndGroups', description: 'This removes a yecloak Group or a emaildomain connection from a server. Please add the server-Id, which can be found in the database and the keycloakgroup (on windows machines you need  two leading /all --> //all) or the emaildomain')]
 class RemoveServerAndGroupsCommand extends Command
 {
-    private $em;
-    public function __construct( EntityManagerInterface $entityManager, string $name = null)
+    protected static $defaultName = 'app:removeServerAndGroups';
+    public function __construct( private EntityManagerInterface $em, string $name = null)
     {
         parent::__construct($name);
-        $this->em = $entityManager;
 
     }
 

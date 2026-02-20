@@ -9,13 +9,8 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class SchedulingService
 {
-    private $em;
-    private $userService;
-
-    public function __construct(EntityManagerInterface $entityManager,UserService $userService)
+    public function __construct(private EntityManagerInterface $em, private UserService $userService)
     {
-        $this->em = $entityManager;
-        $this->userService = $userService;
     }
     public function chooseTimeSlot(SchedulingTime $schedulingTime):?bool{
         $room = $schedulingTime->getScheduling()->getRoom();

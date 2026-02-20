@@ -9,13 +9,8 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class LoggerService
 {
-    private $logger;
-    private $parameterBag;
-
-    public function __construct(LoggerInterface $logger, ParameterBagInterface $parameterBag)
+    public function __construct(private LoggerInterface $logger, private ParameterBagInterface $parameterBag)
     {
-        $this->logger = $logger;
-        $this->parameterBag = $parameterBag;
     }
     public function log($message,$value){
         $this->logger->info($message,$value);

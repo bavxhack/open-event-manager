@@ -17,22 +17,14 @@ class TeilnehmerExcelService
 {
     private $spreadsheet;
     private $writer;
-    private $translator;
-    private $tokenStorage;
-    private $em;
     private $sheet;
     private $alphas;
     private $lineCounter;
     private $mapping;
-    private $userEventCreateService;
-    public function __construct(TranslatorInterface $translator, TokenStorageInterface $tokenStorage, EntityManagerInterface $entityManager, UserEventCreateService $userEventCreateService)
+    public function __construct(private TranslatorInterface $translator, private TokenStorageInterface $tokenStorage, private EntityManagerInterface $em, private UserEventCreateService $userEventCreateService)
     {
         $this->spreadsheet = new Spreadsheet();
         $this->writer = new Xlsx($this->spreadsheet);
-        $this->translator = $translator;
-        $this->tokenStorage = $tokenStorage;
-        $this->em = $entityManager;
-        $this->userEventCreateService = $userEventCreateService;
     }
 
     function generateSpreadsheet()

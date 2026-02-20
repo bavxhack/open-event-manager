@@ -5,32 +5,26 @@ namespace App\Entity;
 use App\Repository\FreeFieldsUserAnswerRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-    #[ORM\Entity(repositoryClass: FreeFieldsUserAnswerRepository::class)]
-
+#[ORM\Entity(repositoryClass: FreeFieldsUserAnswerRepository::class)]
 class FreeFieldsUserAnswer
 {
-        #[ORM\Id]
+    #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: "integer")]
-
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-        #[ORM\Column(type: "text")]
-
+    #[ORM\Column(type: 'text')]
     private $answer;
 
-        #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "freeFieldsUserAnswers")]
     #[ORM\JoinColumn(nullable: false)]
-
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'freeFieldsUserAnswers')]
     private $user;
 
-        #[ORM\ManyToOne(targetEntity: FreeField::class, inversedBy: "yes")]
     #[ORM\JoinColumn(nullable: false)]
-
+    #[ORM\ManyToOne(targetEntity: FreeField::class, inversedBy: 'yes')]
     private $freeField;
 
-        #[ORM\Column(type: "datetime")]
-
+    #[ORM\Column(type: 'datetime')]
     private $createdAt;
 
     public function getId(): ?int

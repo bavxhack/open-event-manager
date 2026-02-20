@@ -21,23 +21,8 @@ use Twig\Environment;
 
 class SubcriptionService
 {
-    private $em;
-    private $twig;
-    private $translator;
-    private $notifier;
-    private $userService;
-    private $logger;
-
-
-    public function __construct(LoggerService $logger, UserService $userService, NotificationService $notificationService, EntityManagerInterface $entityManager, Environment $environment, TranslatorInterface $translator)
+    public function __construct(private LoggerService $logger, private UserService $userService, private NotificationService $notifier, private EntityManagerInterface $em, private Environment $twig, private TranslatorInterface $translator)
     {
-        $this->em = $entityManager;
-        $this->twig = $environment;
-        $this->translator = $translator;
-        $this->notifier = $notificationService;
-        $this->userService = $userService;
-        $this->logger = $logger;
-
     }
 
     /**

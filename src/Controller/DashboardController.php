@@ -18,7 +18,7 @@ use App\Service\ServerUserManagment;
 use Firebase\JWT\JWT;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use function Doctrine\ORM\QueryBuilder;
 
@@ -29,12 +29,15 @@ use function Doctrine\ORM\QueryBuilder;
 class DashboardController extends AbstractController
 {
 
-
-    #[Route("/", name: "index")]
-    public function index(Request $request, RoomSpaceService $roomSpaceService, RoomsRepository $roomsRepository): \Symfony\Component\HttpFoundation\Response
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    #[Route(path: '/', name: 'index')]
+    public function index(Request $request, RoomSpaceService $roomSpaceService, RoomsRepository $roomsRepository)
     {
 
-        $tmp = $roomsRepository->findRoomsByDashboard();
+        $tmp = $roomsRepository->findRoomsOnIndex();
         $events = array();
         foreach ($tmp as $data) {
             if ($roomSpaceService->isRoomSpace($data) || $data->getShowInCalendarWhenNoSpace() == null) {
@@ -45,9 +48,12 @@ class DashboardController extends AbstractController
     }
 
 
-
-    #[Route("/room/dashboard", name: "dashboard")]
-    public function dashboard(Request $request, ServerUserManagment $serverUserManagment, RoomsRepository $roomsRepository): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    #[Route(path: '/room/dashboard', name: 'dashboard')]
+    public function dashboard(Request $request, ServerUserManagment $serverUserManagment, RoomsRepository $roomsRepository)
     {
         if ($request->get('join_room') && $request->get('type')) {
             return $this->redirectToRoute('room_join', ['room' => $request->get('join_room'), 't' => $request->get('type')]);

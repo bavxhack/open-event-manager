@@ -8,31 +8,25 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping as ORM;
 use phpDocumentor\Reflection\Types\This;
 
-    #[ORM\Entity(repositoryClass: LicenseRepository::class)]
-
+#[ORM\Entity(repositoryClass: LicenseRepository::class)]
 class License
 {
 
-        #[ORM\Id]
+    #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: "integer")]
-
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-        #[ORM\Column(type: "text")]
-
+    #[ORM\Column(type: 'text')]
     private $licenseKey;
 
-        #[ORM\Column(type: "text")]
-
+    #[ORM\Column(type: 'text')]
     private $license;
 
-        #[ORM\Column(type: "datetime")]
-
+    #[ORM\Column(type: 'datetime')]
     private $validUntil;
 
-        #[ORM\Column(type: "text")]
-
+    #[ORM\Column(type: 'text')]
     private $url;
 
 

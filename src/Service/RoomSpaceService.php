@@ -11,11 +11,8 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class RoomSpaceService
 {
-    private $em;
-
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private EntityManagerInterface $em)
     {
-        $this->em = $entityManager;
     }
 
     public function isRoomSpace(Rooms $rooms)

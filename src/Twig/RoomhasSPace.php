@@ -21,12 +21,10 @@ class RoomhasSPace extends AbstractExtension
 {
 
 
-   private $roomSpaceService;
-    private $em;
+   private $em;
 
-    public function __construct(RoomSpaceService $roomSpaceService)
+    public function __construct(private RoomSpaceService $roomSpaceService)
     {
-        $this->roomSpaceService = $roomSpaceService;
     }
 
     public function getFilters()

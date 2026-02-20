@@ -20,24 +20,8 @@ use Twig\Environment;
 
 class UserService
 {
-    private $mailer;
-    private $parameterBag;
-    private $twig;
-    private $notificationService;
-    private $url;
-    private $translator;
-    private $em;
-    private $userCreateService;
-    public function __construct(EntityManagerInterface $entityManager, TranslatorInterface $translator, MailerService $mailerService, ParameterBagInterface $parameterBag, Environment $environment, NotificationService $notificationService, UrlGeneratorInterface $urlGenerator, UserEventCreateService $userEventCreateService)
+    public function __construct(private EntityManagerInterface $em, private TranslatorInterface $translator, private MailerService $mailer, private ParameterBagInterface $parameterBag, private Environment $twig, private NotificationService $notificationService, private UrlGeneratorInterface $url, private UserEventCreateService $userCreateService)
     {
-        $this->mailer = $mailerService;
-        $this->parameterBag = $parameterBag;
-        $this->twig = $environment;
-        $this->notificationService = $notificationService;
-        $this->url = $urlGenerator;
-        $this->translator = $translator;
-        $this->em = $entityManager;
-        $this->userCreateService = $userEventCreateService;
     }
 
     function generateUrl(Rooms $room, User $user)

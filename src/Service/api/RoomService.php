@@ -16,16 +16,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class RoomService
 {
-    private $em;
-    private $userService;
-    private $inviteService;
-    private $urlGenerator;
-    public function __construct(UrlGeneratorInterface $urlGenerator, EntityManagerInterface $entityManager, UserService $userService, InviteService $inviteService)
+    public function __construct(private UrlGeneratorInterface $urlGenerator, private EntityManagerInterface $em, private UserService $userService, private InviteService $inviteService)
     {
-        $this->em = $entityManager;
-        $this->userService = $userService;
-        $this->inviteService = $inviteService;
-        $this->urlGenerator = $urlGenerator;
     }
 
     public function createRoom(User $user, Standort $server, \DateTime $start, $duration, $name)

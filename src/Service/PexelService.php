@@ -11,12 +11,8 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class PexelService
 {
-    private $client;
-    private $parameterBag;
-    public function __construct(HttpClientInterface $httpClient, ParameterBagInterface $parameterBag)
+    public function __construct(private HttpClientInterface $client, private ParameterBagInterface $parameterBag)
     {
-        $this->client = $httpClient;
-        $this->parameterBag = $parameterBag;
     }
 
     public function getImageFromPexels()

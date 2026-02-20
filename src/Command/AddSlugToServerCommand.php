@@ -5,7 +5,6 @@ namespace App\Command;
 use App\Entity\Standort;
 use App\Service\StandortService;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -13,16 +12,12 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-#[AsCommand(name: 'app:addSlugToServer', description: 'Adds a slug to all servers, which does not have a slug')]
 class AddSlugToServerCommand extends Command
 {
-    private $em;
-    private $serverService;
-    public function __construct(EntityManagerInterface $entityManager, StandortService $serverService,string $name = null)
+    protected static $defaultName = 'app:addSlugToServer';
+    public function __construct(private EntityManagerInterface $em, private StandortService $serverService,string $name = null)
     {
         parent::__construct($name);
-        $this->em = $entityManager;
-        $this->serverService = $serverService;
     }
 
     protected function configure()

@@ -13,23 +13,20 @@ use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class JoinController extends AbstractController
 {
-    private $parameterBag;
-
-    public function __construct(ParameterBagInterface $parameterBag)
+    public function __construct(private ParameterBagInterface $parameterBag)
     {
-        $this->parameterBag = $parameterBag;
     }
-        #[Route("/join/{slug}", name: "join_index")]
-    #[Route("/join", name: "join_index_no_slug")]
 
-    public function index(PexelService $pexelService, Request $request, TranslatorInterface $translator, RoomService $roomService, $slug = null )
+    #[Route(path: '/join/{slug}', name: 'join_index')]
+    #[Route(path: '/join', name: 'join_index_no_slug')]
+    public function index($slug = null, PexelService $pexelService, Request $request, TranslatorInterface $translator, RoomService $roomService, HttpClientInterface $httpClient)
     {
         $data = array();
         $standort = $this->getDoctrine()->getRepository(Standort::class)->findOneBy(['slug' => $slug]);

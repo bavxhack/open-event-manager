@@ -7,31 +7,25 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-    #[ORM\Entity(repositoryClass: SchedulingRepository::class)]
-
+#[ORM\Entity(repositoryClass: SchedulingRepository::class)]
 class Scheduling
 {
-        #[ORM\Id]
+    #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: "integer")]
-
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-        #[ORM\Column(type: "text")]
-
+    #[ORM\Column(type: 'text')]
     private $uid;
 
-        #[ORM\Column(type: "text", nullable: true)]
-
+    #[ORM\Column(type: 'text', nullable: true)]
     private $description;
 
-        #[ORM\ManyToOne(targetEntity: Rooms::class, inversedBy: "schedulings")]
     #[ORM\JoinColumn(nullable: false)]
-
+    #[ORM\ManyToOne(targetEntity: Rooms::class, inversedBy: 'schedulings')]
     private $room;
 
-        #[ORM\OneToMany(targetEntity: SchedulingTime::class, mappedBy: "scheduling")]
-
+    #[ORM\OneToMany(targetEntity: SchedulingTime::class, mappedBy: 'scheduling')]
     private $schedulingTimes;
 
     public function __construct()

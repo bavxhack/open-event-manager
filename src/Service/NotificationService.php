@@ -18,18 +18,10 @@ use Twig\Environment;
 
 class NotificationService
 {
-    private $mailer;
-    private $parameterBag;
     private $ics;
-    private $twig;
-    private $translator;
 
-    public function __construct(MailerService $mailerService, ParameterBagInterface $parameterBag, IcsService $icsService, Environment $environment, TranslatorInterface $translator)
+    public function __construct(private MailerService $mailer, private ParameterBagInterface $parameterBag, IcsService $icsService, private Environment $twig, private TranslatorInterface $translator)
     {
-        $this->mailer = $mailerService;
-        $this->parameterBag = $parameterBag;
-        $this->twig = $environment;
-        $this->translator = $translator;
     }
 
     function createIcs(Rooms $rooms, User $user, $method = 'REQUEST')
