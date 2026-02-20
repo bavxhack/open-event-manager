@@ -15,7 +15,6 @@ use Symfony\Component\Routing\Attribute\Route;
 class CronController extends AbstractController
 {
         #[Route("/cron/remember", name: "cron_remember")]
-
     public function updateCronAkademie(Request $request, LoggerInterface $logger, UserService $userService, ReminderService $reminderService)
     {
         if ($request->get('token') !== $this->getParameter('cronToken')) {

@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Service\RoomService;
 use App\Service\ServerUserManagment;
 use App\Service\UserService;
+use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Reflection\Types\This;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,7 +22,7 @@ class AdHocMeetingController extends AbstractController
     #[MapEntity(expr: "repository.findOneBy({'id': userId})")]
     #[MapEntity(expr: "repository.findOneBy({'id': serverId})")]
 
-public function index(User $user, Standort $standort, UserService $userService, TranslatorInterface $translator, ServerUserManagment $serverUserManagment): Response
+public function index(User $user, Standort $standort, UserService $userService, TranslatorInterface $translator, ServerUserManagment $serverUserManagment, EntityManagerInterface $entityManager): Response
     {
 
         if(!in_array($user,$this->getUser()->getAddressbook()->toArray())){
@@ -43,7 +44,7 @@ public function index(User $user, Standort $standort, UserService $userService, 
         $room->setStandort($standort);
         $room->setName($translator->trans('Event mit {n}',array('{n}'=>$user->getEmail())));
         $room->setOnlyRegisteredUsers(false);
-        $em = $this->getDoctrine()->getManager();
+        $em = $entityManager;
         $em->persist($room);
         $em->flush();
         $user->addRoom($room);

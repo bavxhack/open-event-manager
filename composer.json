@@ -32,6 +32,7 @@
     "symfony/process": "7.4.*",
     "symfony/property-access": "7.4.*",
     "symfony/property-info": "7.4.*",
+    "symfony/runtime": "7.4.*",
     "symfony/security-bundle": "7.4.*",
     "symfony/serializer": "7.4.*",
     "symfony/translation": "7.4.*",
@@ -66,7 +67,8 @@
     "sort-packages": true,
     "allow-plugins": {
       "endroid/installer": true,
-      "symfony/flex": true
+      "symfony/flex": true,
+      "symfony/runtime": true
     }
   },
   "autoload": {

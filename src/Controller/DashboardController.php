@@ -12,6 +12,7 @@ use App\Entity\Rooms;
 use App\Entity\Standort;
 use App\Entity\User;
 use App\Form\Type\JoinViewType;
+use App\Repository\RoomsRepository;
 use App\Service\RoomSpaceService;
 use App\Service\ServerUserManagment;
 use Firebase\JWT\JWT;
@@ -28,23 +29,12 @@ use function Doctrine\ORM\QueryBuilder;
 class DashboardController extends AbstractController
 {
 
-    /**
+
     #[Route("/", name: "index")]
-     * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     */
-    public function index(Request $request, RoomSpaceService $roomSpaceService)
+    public function index(Request $request, RoomSpaceService $roomSpaceService, RoomsRepository $roomsRepository): \Symfony\Component\HttpFoundation\Response
     {
-        $qb = $this->getDoctrine()->getRepository(Rooms::class)->createQueryBuilder('rooms');
-        $now = new \DateTime();
-        $qb->andWhere('rooms.showRoomOnCalendar = true')
-            ->andWhere($qb->expr()->isNotNull('rooms.moderator'))
-            ->andWhere($qb->expr()->orX(
-                $qb->expr()->isNull('rooms.showAfterDate'),
-                $qb->expr()->lte('rooms.showAfterDate',':now')
-            ))
-        ->setParameter('now',$now);
-        $tmp = $qb->getQuery()->getResult();
+
+        $tmp = $roomsRepository->findRoomsByDashboard();
         $events = array();
         foreach ($tmp as $data) {
             if ($roomSpaceService->isRoomSpace($data) || $data->getShowInCalendarWhenNoSpace() == null) {
@@ -55,18 +45,15 @@ class DashboardController extends AbstractController
     }
 
 
-    /**
+
     #[Route("/room/dashboard", name: "dashboard")]
-     * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     */
-    public function dashboard(Request $request, ServerUserManagment $serverUserManagment)
+    public function dashboard(Request $request, ServerUserManagment $serverUserManagment, RoomsRepository $roomsRepository): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
     {
         if ($request->get('join_room') && $request->get('type')) {
             return $this->redirectToRoute('room_join', ['room' => $request->get('join_room'), 't' => $request->get('type')]);
         }
 
-        $roomsFuture = $this->getDoctrine()->getRepository(Rooms::class)->findRoomsInFuture($this->getUser());
+        $roomsFuture = $roomsRepository->findRoomsInFuture($this->getUser());
         $r = array();
         $future = array();
         foreach ($roomsFuture as $data) {
